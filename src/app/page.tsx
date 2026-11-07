@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import { PackageSearch } from "lucide-react";
+import { connection } from "next/server";
 import { buttonVariants } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -43,6 +44,8 @@ export default function Home() {
 
 // Tanpa "use cache": stok harus selalu segar setelah ada checkout.
 async function ProductGrid() {
+  // Klien Supabase memakai Date.now() untuk cek masa berlaku sesi: tunggu request asli.
+  await connection();
   const supabase = await createClient();
   // Filter is_active eksplisit: admin yang login lolos RLS untuk produk nonaktif.
   const { data: products, error } = await supabase

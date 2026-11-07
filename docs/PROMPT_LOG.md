@@ -285,3 +285,34 @@ Hasil: Migration dijalankan, lalu keempat acceptance criteria diuji dalam transa
 > note: jangan lakukan perubahan/generate kode atau apapun, sebelum saya setujui rencana implementasi issue 10
 
 Hasil: AI membaca issue #10, halaman admin dan tabel transaksi dari #8, ringkasan dari #9, migration #2, dan Flowchart §6. Karena tabel `orders` sudah masuk publication realtime dan data dashboard sudah diambil di Server Component, rencananya cukup satu komponen klien kecil: berlangganan perubahan `orders`, menampilkan toast saat ada pesanan baru, dan memanggil `router.refresh()` agar ringkasan, grafik, dan tabel diambil ulang. Saat rencana ditinjau, AI diminta menjelaskan dari mana ia tahu publication realtime sudah aktif. Jawabannya dari file migration, sehingga rencana ditambah langkah cek langsung di database live sebelum menulis kode. Saat diuji di browser, dashboard awalnya tidak berubah: langganan terdaftar sebelum token admin terpasang sehingga tercatat sebagai `anon` dan semua event disaring RLS. AI memperbaikinya dengan memasang token sesi sebelum subscribe. Setelah itu keempat acceptance criteria lolos dengan dua tab: pesanan baru muncul beserta toast, kartu dan grafik ikut berubah, pembatalan dari tab admin lain ikut tampil, dan jumlah langganan di database tetap satu per tab saat berpindah halaman. Dua pesanan uji dibatalkan agar stok kembali. Commit di-push dan issue #10 tertutup otomatis.
+
+## Tahap 17 — Lacak Pesanan Pelanggan (Issue #11)
+
+**33. Meminta rencana sebelum eksekusi**
+
+> saya ingin melanjutkan issue #11 cek pada @docs/ISSUES.md dan pada github, sebelum melakukan eksekusi, saya ingin melihat tahapan yang akan kamu lakukan terlebih dahulu.
+> tampilkan outputnya secara ringkas dan rapi serta terstruktur.
+>
+> note: jangan lakukan perubahan/generate kode atau apapun, sebelum saya setujui rencana implementasi issue 11
+
+Hasil: AI membaca issue #11, fungsi `get_order_status` dari #3, halaman sukses dari #6 (yang sudah menautkan ke `/track?code=`), PRD FR-08/FR-09/US-05, dan Flowchart §4. Karena fungsi database sudah siap, rencana awalnya cukup dua file baru tanpa migration: halaman `/track` dan komponen form kode + nomor HP dengan polling 10 detik. Saat rencana ditinjau, AI diminta menjelaskan kenapa pelacakan harus memakai kode dan nomor HP sekaligus. AI menjelaskan alasannya (privasi dan aturan di PRD FR-08) beserta untung-rugi tiap pilihan, lalu meminta keputusan.
+
+**34. Memilih pencarian dengan kode atau nomor HP**
+
+> kode maupun no Hp menampilkan daftar dulu, walaupun kode menampilkan hasil 1 (seharusnya), nanti baru diklik untuk melihat detailnya
+
+Hasil: Rencana diubah: `get_order_status(code, phone)` diganti fungsi baru `track_orders(keyword)`. Keyword berawalan `ORD-` dicari sebagai kode, selain itu sebagai nomor HP yang dinormalisasi. Hasilnya berupa daftar pesanan (tanpa nama, alamat, dan nomor HP), dan pesanan diklik untuk membuka dialog rincian. PRD, ERD, Flowchart, dan isi issue #11 di GitHub ikut masuk rencana untuk diperbarui.
+
+**35. Meninjau rencana: polling, catatan risiko, dan jumlah hasil kode**
+
+> kenapa harus polling? apakah memang dibutuhkan polling? kenapa ngga cukup dari pelanggannya yang melakukan refresh saja?
+> seharusnya aman dan tidak perlu dicatat resikonya. Karena data order tidak terlalu bahaya
+> sebenarnya kalau ini tidak harus 1, tapi hasilnya seharusnya akan selalu 1, karena setiap order kodenya berbeda, begitu bukan?
+
+Hasil: AI menjelaskan bahwa polling secara teknis tidak wajib. Polling ada di rencana karena diminta PRD FR-09 dan dua acceptance criteria issue #11, sehingga menghapusnya berarti mengubah keduanya. AI lalu menawarkan tiga pilihan: polling, tombol "Perbarui", atau refresh manual. Catatan risiko dihapus dari rencana. AI juga membenarkan bahwa pencarian dengan kode selalu menghasilkan tepat satu pesanan (atau nol), karena kolom `orders.code` bersifat `unique` dan `create_order` membuat kode baru jika terjadi bentrok.
+
+**36. Memilih refresh manual**
+
+> Refresh manual saja
+
+Hasil: Rencana final disetujui. Migration `track_orders` (beserta index `customer_phone`) dijalankan, lalu diuji sebagai `anon`: kode menghasilkan 1 pesanan; nomor HP format `0…`, `+62 …-…`, dan `62…` menghasilkan daftar yang sama; input salah, kosong, atau null menghasilkan `[]`; `get_order_status` sudah terhapus. Pencarian dari `?code=` dijalankan di server sehingga muat ulang halaman selalu menampilkan status terbaru, sedangkan nomor HP tidak dimasukkan ke URL. Tabel rincian barang di dialog admin diekstrak menjadi komponen bersama agar dipakai juga oleh halaman lacak. Saat diuji di browser ditemukan dua masalah: error `Date.now()` saat prerender (diperbaiki dengan `await connection()` seperti di `/admin`) dan fokus keyboard hilang karena input di-disable saat mencari (sekarang hanya tombol yang di-disable). Satu pesanan uji diubah ke Diproses lalu Dibatalkan; keduanya terlihat setelah halaman dimuat ulang, dan stok kembali seperti semula. PRD FR-08/FR-09/US-05, ERD §4–§5, Flowchart §4/§7, dan isi issue #11 diperbarui. Commit di-push, issue #11 tertutup otomatis, dan deploy Vercel berhasil.

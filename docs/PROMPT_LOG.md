@@ -274,3 +274,14 @@ Hasil: AI membaca issue #9, migration #2/#3, halaman admin dari #8, PRD FR-11/FR
 > Ya, jalankan
 
 Hasil: Migration dijalankan, lalu keempat acceptance criteria diuji dalam transaksi yang di-rollback: angka fungsi sama dengan hitungan langsung dari tabel, pesanan yang dibatalkan mengembalikan omzet ke nilai semula, data kosong menghasilkan angka 0 dan grafik 7 hari bernilai 0, serta anon (juga lewat REST API) dan user tanpa role admin ditolak. Karena login admin di browser berarti mengirim password ke Supabase Auth yang di-hosting, tampilan dicek lewat halaman pratinjau sementara berisi angka hasil uji di lebar 375px dan desktop, lalu halaman itu dihapus sebelum commit. Saat dicek, grafik sempat terlihat kosong; ternyata tangkapan layar diambil saat animasi batang belum selesai, bukan bug. Commit di-push, issue #9 tertutup otomatis, dan deploy Vercel berhasil.
+
+## Tahap 16 — Dashboard Real-time & Notifikasi Pesanan Baru (Issue #10)
+
+**32. Meminta rencana sebelum eksekusi**
+
+> saya ingin melanjutkan issue #10 cek pada @docs/ISSUES.md dan pada github, sebelum melakukan eksekusi, saya ingin melihat tahapan yang akan kamu lakukan terlebih dahulu.
+> tampilkan outputnya secara ringkas dan rapi serta terstruktur.
+>
+> note: jangan lakukan perubahan/generate kode atau apapun, sebelum saya setujui rencana implementasi issue 10
+
+Hasil: AI membaca issue #10, halaman admin dan tabel transaksi dari #8, ringkasan dari #9, migration #2, dan Flowchart §6. Karena tabel `orders` sudah masuk publication realtime dan data dashboard sudah diambil di Server Component, rencananya cukup satu komponen klien kecil: berlangganan perubahan `orders`, menampilkan toast saat ada pesanan baru, dan memanggil `router.refresh()` agar ringkasan, grafik, dan tabel diambil ulang. Saat rencana ditinjau, AI diminta menjelaskan dari mana ia tahu publication realtime sudah aktif. Jawabannya dari file migration, sehingga rencana ditambah langkah cek langsung di database live sebelum menulis kode. Saat diuji di browser, dashboard awalnya tidak berubah: langganan terdaftar sebelum token admin terpasang sehingga tercatat sebagai `anon` dan semua event disaring RLS. AI memperbaikinya dengan memasang token sesi sebelum subscribe. Setelah itu keempat acceptance criteria lolos dengan dua tab: pesanan baru muncul beserta toast, kartu dan grafik ikut berubah, pembatalan dari tab admin lain ikut tampil, dan jumlah langganan di database tetap satu per tab saat berpindah halaman. Dua pesanan uji dibatalkan agar stok kembali. Commit di-push dan issue #10 tertutup otomatis.

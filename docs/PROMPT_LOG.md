@@ -173,3 +173,20 @@ Hasil: AI awalnya menawarkan SQL Editor atau Supabase CLI. Dengan connection str
 > ini maksudny apa? bukankah di database makenya user_role?
 
 Hasil: `user_roles` adalah tabel (akun + role-nya), sedangkan `app_role` adalah tipe enum untuk kolom `user_roles.role` yang membatasi nilai role yang sah, sama seperti `order_status` untuk `orders.status`. Penjelasan ini ditambahkan ke rencana sebelum disetujui.
+
+## Tahap 9 — Fungsi DB Pesanan (Issue #3)
+
+**22. Meminta rencana sebelum eksekusi**
+
+> saya ingin melanjutkan issue #3 cek pada @docs/ISSUES.md dan pada github, sebelum melakukan eksekusi, saya ingin melihat tahapan yang akan kamu lakukan terlebih dahulu.
+> tampilkan outputnya secara ringkas dan rapi serta terstruktur.
+>
+> note: jangan lakukan perubahan/generate kode atau apapun, sebelum saya setujui rencana implementasi issue 3
+
+Hasil: AI membaca issue #3, migration #2, ERD, PRD, dan Flowchart, lalu menyusun rencana: satu migration baru berisi `normalize_phone`, `create_order`, `get_order_status`, dan `update_order_status`, aturan hak akses per role, cara uji untuk setiap acceptance criteria, dan bagian dokumen yang perlu diperbarui. Tidak ada file yang dibuat sebelum rencana disetujui.
+
+**23. Memberi izin akses database**
+
+> Ya, jalankan
+
+Hasil: Saat AI pertama kali mencoba menjalankan migration ke Supabase, pemeriksa izin otomatis Claude Code menolaknya karena tindakan itu mengubah database bersama. AI tidak mencari jalan pintas. Ia menyelesaikan pekerjaan yang tidak butuh database (dokumen, skrip uji, `npm run build`), lalu meminta izin secara eksplisit. Setelah diizinkan, migration dijalankan dan semua acceptance criteria diuji: uji logika dalam transaksi yang di-rollback, dan uji dua checkout bersamaan dengan data uji yang dihapus otomatis. Semuanya lolos.

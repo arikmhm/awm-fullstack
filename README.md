@@ -2,6 +2,20 @@
 
 Demo: https://awm-fullstack.vercel.app
 
+## Akun admin
+
+Login admin ada di `/admin/login`. Hanya akun dengan role `admin` di tabel `user_roles` yang bisa membuka dashboard.
+
+1. Supabase Dashboard → Authentication → Users → **Add user** (isi email + password, centang *Auto Confirm User*).
+2. SQL Editor, jalankan (ganti email):
+
+   ```sql
+   insert into public.user_roles (user_id, role)
+   select id, 'admin' from auth.users where email = 'admin@contoh.com';
+   ```
+
+Akun yang login tanpa baris di `user_roles` otomatis dikeluarkan dengan pesan "Akun bukan admin".
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started

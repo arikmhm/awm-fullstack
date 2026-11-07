@@ -223,3 +223,26 @@ Hasil: AI membaca issue #5, halaman katalog dari #4, komponen `Sheet` yang sudah
 > note: jangan lakukan perubahan/generate kode atau apapun, sebelum saya setujui rencana implementasi issue 6
 
 Hasil: AI membaca issue #6, fungsi `create_order` dari #3, keranjang dari #5, PRD FR-04–FR-07, dan Flowchart §2. Karena `create_order` hanya mengembalikan kode dan total, AI menanyakan cara menampilkan ringkasan di halaman sukses; dipilih route `/checkout/success` dengan ringkasan disimpan di `sessionStorage`. Rencananya: form dengan validasi per field, hanya `product_id + qty` yang dikirim, tombol dikunci saat proses agar tidak ada pesanan ganda, dan error server (mis. stok tidak cukup) ditampilkan lalu kembali ke katalog. Setelah disetujui, saat diuji di lebar 375px tombol di halaman sukses ternyata gepeng dan tombol outline kehilangan garis tepi, lalu keduanya diperbaiki. Lint dan build lolos, semua acceptance criteria dicek di 375px dan desktop, termasuk klik ganda yang terbukti hanya membuat satu pesanan.
+
+## Tahap 13 — Login Admin & Proteksi Role (Issue #7)
+
+**27. Meminta rencana sebelum eksekusi**
+
+> saya ingin melanjutkan issue #7 cek pada @docs/ISSUES.md dan pada github, sebelum melakukan eksekusi, saya ingin melihat tahapan yang akan kamu lakukan terlebih dahulu.
+> tampilkan outputnya secara ringkas dan rapi serta terstruktur.
+>
+> note: jangan lakukan perubahan/generate kode atau apapun, sebelum saya setujui rencana implementasi issue 7
+
+Hasil: AI membaca issue #7, fungsi `is_admin()` dan RLS dari #2, client Supabase yang sudah ada, PRD FR-10/FR-17/US-06, Flowchart §5, dan dokumentasi Next.js 16 (di versi ini `middleware.ts` sudah diganti `proxy.ts`). Rencananya: `proxy.ts` menjaga `/admin/*` (belum login diarahkan ke login, bukan admin otomatis logout), Server Action untuk login dan logout, halaman login, dashboard sementara dengan tombol logout, dan langkah membuat akun admin lewat SQL dicatat di README. Setelah disetujui, form login dibungkus `<Suspense>` karena `cacheComponents` aktif. Build dan lint lolos. Redirect `/admin`, pesan password salah, dan tampilan 375px dicek di browser. AI tidak login memakai akun sungguhan karena password akan dikirim ke Supabase Auth yang di-hosting, jadi uji login dilakukan manual.
+
+**28. Melaporkan hasil uji login manual**
+
+> saya sudah melakukan pengecekan login:
+>
+> * email benar pw benar ->dashboard
+> * email benar pw salah ->Email atau password salah
+> * email salah pw benar ->Email atau password salah
+> * email salah pw salah ->Email atau password salah
+> * email benar pw benar tapi bukan admin ->Akun bukan admin
+
+Hasil: AI mencocokkan hasil uji dengan acceptance criteria: AC1–AC3 lolos, dan pesan yang sama untuk email salah maupun password salah memang disengaja agar email terdaftar tidak bisa ditebak. AI menunjukkan bahwa AC4 (logout) belum tercakup dan memberi langkah ujinya. Setelah logout terkonfirmasi, commit di-push, issue #7 tertutup otomatis, dan deploy Vercel dicek: `/admin` di produksi mengarah ke halaman login.

@@ -190,3 +190,14 @@ Hasil: AI membaca issue #3, migration #2, ERD, PRD, dan Flowchart, lalu menyusun
 > Ya, jalankan
 
 Hasil: Saat AI pertama kali mencoba menjalankan migration ke Supabase, pemeriksa izin otomatis Claude Code menolaknya karena tindakan itu mengubah database bersama. AI tidak mencari jalan pintas. Ia menyelesaikan pekerjaan yang tidak butuh database (dokumen, skrip uji, `npm run build`), lalu meminta izin secara eksplisit. Setelah diizinkan, migration dijalankan dan semua acceptance criteria diuji: uji logika dalam transaksi yang di-rollback, dan uji dua checkout bersamaan dengan data uji yang dihapus otomatis. Semuanya lolos.
+
+## Tahap 10 — Katalog Produk (Issue #4)
+
+**24. Meminta rencana sebelum eksekusi**
+
+> saya ingin melanjutkan issue #4 cek pada @docs/ISSUES.md dan pada github, sebelum melakukan eksekusi, saya ingin melihat tahapan yang akan kamu lakukan terlebih dahulu.
+> tampilkan outputnya secara ringkas dan rapi serta terstruktur.
+>
+> note: jangan lakukan perubahan/generate kode atau apapun, sebelum saya setujui rencana implementasi issue 4
+
+Hasil: AI membaca issue #4, skema & seed produk, PRD FR-01, Flowchart §2, dan dokumentasi caching Next.js 16 (karena `cacheComponents` aktif). Rencananya: helper `formatRupiah`, komponen gambar dengan fallback, dan grid produk di dalam `<Suspense>` tanpa cache agar stok selalu segar, plus filter `is_active` eksplisit karena admin yang login bisa membaca produk nonaktif. Setelah disetujui, saat dicek di lebar 375px teks tombol ternyata meluap, sehingga tombol dibuat boleh dua baris. Build lolos, tampilan dicek di 375px dan desktop, lalu dicek ulang di URL produksi.

@@ -12,7 +12,7 @@ type SearchParams = Promise<{ code?: string | string[] }>;
 
 export default function TrackPage({ searchParams }: { searchParams: SearchParams }) {
   return (
-    <main className="mx-auto w-full max-w-lg flex-1 p-4 sm:p-6">
+    <main className="mx-auto w-full max-w-6xl flex-1 p-4 sm:p-6">
       <Link href="/" className="mb-4 inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
         <ArrowLeft className="size-4" /> Kembali belanja
       </Link>

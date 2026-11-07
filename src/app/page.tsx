@@ -1,4 +1,7 @@
+import Link from "next/link";
 import { Suspense } from "react";
+import { PackageSearch } from "lucide-react";
+import { buttonVariants } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -10,7 +13,7 @@ import { AddToCartButton } from "@/components/add-to-cart-button";
 import { CartSheet } from "@/components/cart-sheet";
 import { ProductImage } from "@/components/product-image";
 import { createClient } from "@/lib/supabase/server";
-import { formatRupiah } from "@/lib/utils";
+import { cn, formatRupiah } from "@/lib/utils";
 
 const gridClass = "grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4";
 
@@ -24,7 +27,12 @@ export default function Home() {
             Pesan tanpa login, pantau pesanan secara real-time.
           </p>
         </div>
-        <CartSheet />
+        <div className="flex shrink-0 items-center gap-2">
+          <Link href="/track" className={cn(buttonVariants({ variant: "outline", size: "lg" }))}>
+            <PackageSearch /> <span className="max-sm:sr-only">Lacak pesanan</span>
+          </Link>
+          <CartSheet />
+        </div>
       </header>
       <Suspense fallback={<ProductGridSkeleton />}>
         <ProductGrid />

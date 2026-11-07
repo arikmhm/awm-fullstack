@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useRef, useState, useSyncExternalStore } from "react";
+import { useLayoutEffect, useRef, useState, useSyncExternalStore } from "react";
 import { toast } from "sonner";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -44,6 +44,22 @@ export function CheckoutForm() {
   const [errors, setErrors] = useState<Errors>({});
   const [pending, setPending] = useState(false);
   const submitting = useRef(false); // state baru berlaku setelah render; ref menahan klik beruntun
+  const done = useRef(false);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  // cacheComponents menyembunyikan halaman (Activity), bukan unmount: reset setelah sukses
+  // agar checkout berikutnya mulai bersih. Draft yang belum disubmit tetap dipertahankan.
+  useLayoutEffect(() => {
+    const form = formRef.current;
+    return () => {
+      if (!done.current) return;
+      done.current = false;
+      submitting.current = false;
+      setPending(false);
+      setErrors({});
+      form?.reset();
+    };
+  }, [hydrated]); // form baru ada setelah hydrate (sebelumnya skeleton)
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -88,6 +104,7 @@ export function CheckoutForm() {
       // storage diblokir: kode tetap terlihat lewat toast
       toast.success(`Pesanan ${order.code} berhasil dibuat`);
     }
+    done.current = true;
     clearCart();
     router.replace("/checkout/success");
   }
@@ -107,7 +124,7 @@ export function CheckoutForm() {
 
   return (
     <div className="grid gap-6 md:grid-cols-[1fr_20rem] md:items-start">
-      <form noValidate onSubmit={onSubmit} className="flex flex-col gap-4">
+      <form ref={formRef} noValidate onSubmit={onSubmit} className="flex flex-col gap-4">
         {FIELDS.map((f) => (
           <div key={f.id} className="flex flex-col gap-1.5">
             <Label htmlFor={f.id}>{f.label}</Label>

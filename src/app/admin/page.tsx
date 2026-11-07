@@ -4,12 +4,13 @@ import { LogOut } from "lucide-react";
 import { connection } from "next/server";
 import { logout } from "@/app/admin/actions";
 import { Button } from "@/components/ui/button";
+import { DashboardStats, type DashboardStats as Stats } from "@/components/dashboard-stats";
 import { OrdersTable, type Order } from "@/components/orders-table";
 import { createClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = { title: "Dashboard Admin · Mini E-Commerce" };
 
-// Akses dijaga src/proxy.ts; statistik menyusul di #9.
+// Akses dijaga src/proxy.ts.
 export default function AdminPage() {
   return (
     <main className="mx-auto w-full max-w-6xl flex-1 p-4 sm:p-6">
@@ -21,6 +22,12 @@ export default function AdminPage() {
           </Button>
         </form>
       </header>
+      <section aria-labelledby="stats-title" className="mb-8 flex flex-col gap-4">
+        <h2 id="stats-title" className="text-lg font-semibold">Ringkasan</h2>
+        <Suspense fallback={<div className="h-96 animate-pulse rounded-xl bg-muted" />}>
+          <Summary />
+        </Suspense>
+      </section>
       <section aria-labelledby="orders-title" className="flex flex-col gap-4">
         <h2 id="orders-title" className="text-lg font-semibold">Transaksi</h2>
         <Suspense fallback={<div className="h-64 animate-pulse rounded-xl bg-muted" />}>
@@ -29,6 +36,17 @@ export default function AdminPage() {
       </section>
     </main>
   );
+}
+
+async function Summary() {
+  await connection();
+  const supabase = await createClient();
+  const { data, error } = await supabase.rpc("get_dashboard_stats");
+
+  if (error) {
+    return <p className="text-sm text-destructive">Gagal memuat ringkasan. Coba muat ulang halaman.</p>;
+  }
+  return <DashboardStats stats={data as Stats} />;
 }
 
 // shortcut: semua pesanan dimuat sekaligus, tambah pagination jika data mencapai ribuan.

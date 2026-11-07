@@ -207,6 +207,7 @@ Pelanggan **tidak pernah menulis langsung** ke tabel. Semua perubahan pesanan le
 | `create_order(customer_name, customer_phone, customer_address, items)` | anon, authenticated | Membuat pesanan: harga dari database, kunci baris produk, cek dan kurangi stok, semuanya dalam satu transaksi. Mengembalikan kode pesanan dan total. |
 | `get_order_status(code, phone)` | anon, authenticated | Mengembalikan status, rincian, dan total hanya jika kode dan nomor HP cocok; selain itu kosong (`null`), sama untuk kode salah maupun HP salah. |
 | `update_order_status(order_id, new_status)` | authenticated, dicek `is_admin()` di dalam fungsi | Hanya perpindahan status yang sah (Flowchart §7); jika dibatalkan, stok dikembalikan dalam transaksi yang sama. |
+| `get_dashboard_stats()` | authenticated, dicek `is_admin()` di dalam fungsi | Ringkasan dashboard: total omzet, jumlah pesanan, barang terjual, pesanan `pending`, omzet per hari 7 hari terakhir (zona Asia/Jakarta, hari kosong bernilai 0), dan top 5 produk per qty. Pesanan `cancelled` tidak dihitung di omzet, barang terjual, dan grafik; jumlah pesanan menghitung semua status. |
 | `normalize_phone(phone)` | tidak ada (dipakai fungsi lain) | Menyamakan format nomor HP ke `62xxxx`: `0812…`, `+62 812-…`, dan `62812…` menjadi `62812…`. |
 
 Nomor HP disimpan dalam bentuk yang sudah dinormalisasi, sehingga pelanggan tetap bisa melacak pesanan walaupun menulis nomornya dengan format berbeda.

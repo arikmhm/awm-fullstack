@@ -316,3 +316,14 @@ Hasil: AI menjelaskan bahwa polling secara teknis tidak wajib. Polling ada di re
 > Refresh manual saja
 
 Hasil: Rencana final disetujui. Migration `track_orders` (beserta index `customer_phone`) dijalankan, lalu diuji sebagai `anon`: kode menghasilkan 1 pesanan; nomor HP format `0…`, `+62 …-…`, dan `62…` menghasilkan daftar yang sama; input salah, kosong, atau null menghasilkan `[]`; `get_order_status` sudah terhapus. Pencarian dari `?code=` dijalankan di server sehingga muat ulang halaman selalu menampilkan status terbaru, sedangkan nomor HP tidak dimasukkan ke URL. Tabel rincian barang di dialog admin diekstrak menjadi komponen bersama agar dipakai juga oleh halaman lacak. Saat diuji di browser ditemukan dua masalah: error `Date.now()` saat prerender (diperbaiki dengan `await connection()` seperti di `/admin`) dan fokus keyboard hilang karena input di-disable saat mencari (sekarang hanya tombol yang di-disable). Satu pesanan uji diubah ke Diproses lalu Dibatalkan; keduanya terlihat setelah halaman dimuat ulang, dan stok kembali seperti semula. PRD FR-08/FR-09/US-05, ERD §4–§5, Flowchart §4/§7, dan isi issue #11 diperbarui. Commit di-push, issue #11 tertutup otomatis, dan deploy Vercel berhasil.
+
+## Tahap 18 — Tampilan Responsif & State Loading/Kosong/Error (Issue #12)
+
+**37. Meminta rencana sebelum eksekusi**
+
+> saya ingin melanjutkan issue #12 cek pada @docs/ISSUES.md dan pada github, sebelum melakukan eksekusi, saya ingin melihat tahapan yang akan kamu lakukan terlebih dahulu.
+> tampilkan outputnya secara ringkas dan rapi serta terstruktur.
+>
+> note: jangan lakukan perubahan/generate kode atau apapun, sebelum saya setujui rencana implementasi issue 12
+
+Hasil: AI membaca issue #12, PRD NFR-01, semua halaman, dan komponen dari #4–#11, lalu membandingkan ruang lingkup dengan kondisi saat ini. Ternyata state loading (skeleton), state kosong, pesan gagal memuat, serta format Rupiah dan tanggal `id-ID` sudah ada. Yang kurang hanya halaman 404 dan error boundary. Rencana disetujui: dibuat `not-found.tsx` dan `error.tsx` (di versi Next ini prop-nya `retry`, bukan `reset`). Setelah itu semua halaman diaudit di 375px dan desktop, termasuk keranjang, dialog rincian pesanan, dan dashboard admin. Tidak ada scroll horizontal; tabel transaksi di-scroll di dalam kotaknya sendiri. Saat audit ditemukan error `Date.now()` saat prerender di katalog, yang diperbaiki dengan `await connection()` seperti di `/track` dan `/admin`. Error boundary diuji dengan rute sementara yang melempar error, lalu rute itu dihapus. Saat jaringan dimatikan di local, katalog menampilkan "Gagal memuat produk", bukan halaman putih. Link Produk di header admin ditunda ke issue #15. Build lolos, commit di-push, dan issue #12 tertutup otomatis.

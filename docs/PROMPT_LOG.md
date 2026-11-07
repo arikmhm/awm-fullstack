@@ -246,3 +246,14 @@ Hasil: AI membaca issue #7, fungsi `is_admin()` dan RLS dari #2, client Supabase
 > * email benar pw benar tapi bukan admin ->Akun bukan admin
 
 Hasil: AI mencocokkan hasil uji dengan acceptance criteria: AC1–AC3 lolos, dan pesan yang sama untuk email salah maupun password salah memang disengaja agar email terdaftar tidak bisa ditebak. AI menunjukkan bahwa AC4 (logout) belum tercakup dan memberi langkah ujinya. Setelah logout terkonfirmasi, commit di-push, issue #7 tertutup otomatis, dan deploy Vercel dicek: `/admin` di produksi mengarah ke halaman login.
+
+## Tahap 14 — Tabel Transaksi Admin (Issue #8)
+
+**29. Meminta rencana sebelum eksekusi**
+
+> saya ingin melanjutkan issue #8 cek pada @docs/ISSUES.md dan pada github, sebelum melakukan eksekusi, saya ingin melihat tahapan yang akan kamu lakukan terlebih dahulu.
+> tampilkan outputnya secara ringkas dan rapi serta terstruktur.
+>
+> note: jangan lakukan perubahan/generate kode atau apapun, sebelum saya setujui rencana implementasi issue 8
+
+Hasil: AI membaca issue #8, fungsi `update_order_status` dari #3, RLS `orders`/`order_items` dari #2, PRD FR-13–FR-15/US-09/US-10/§6.4, dan Flowchart §7. Karena semua aturan status dan pengembalian stok sudah dijamin database, rencananya murni UI tanpa migration baru: query pesanan beserta rinciannya di Server Component, tabel memakai komponen shadcn yang sudah terpasang, filter status di klien, dialog detail berisi alamat dan rincian barang, serta tombol ubah status yang hanya muncul untuk transisi sah dengan konfirmasi sebelum membatalkan. Setelah disetujui, log dev server menunjukkan error `Date.now()` saat `/admin` dirender dengan sesi admin (Cache Components), lalu diperbaiki dengan `await connection()` sebelum query. Lint dan build lolos. Di browser, dua pesanan uji baru dipakai agar pesanan yang ada tidak berubah: satu dibawa sampai Selesai (tombol ubah status hilang), satu dibatalkan dan stok produknya terbukti kembali di database. Filter tiap status dan tampilan 375px serta desktop juga dicek.

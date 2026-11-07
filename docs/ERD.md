@@ -142,6 +142,7 @@ Saat ini hanya ada satu role. Role baru (misalnya `staff` yang hanya boleh mengu
 | `code` terpisah dari `id` | `id` (UUID) panjang dan untuk internal; `code` pendek agar mudah dicatat pelanggan. |
 | Uang memakai `integer` | Rupiah tidak memakai desimal, dan bilangan bulat terhindar dari masalah pembulatan. |
 | Status memakai tipe enum | Database menolak nilai status di luar empat pilihan yang sah. |
+| Tabel `orders` masuk publication `supabase_realtime` | Tanpa ini Supabase Realtime tidak mengirim perubahan pesanan ke dashboard. Pengiriman tetap tunduk pada RLS, jadi hanya admin yang menerimanya. |
 | Role disimpan di tabel `user_roles`, terpisah dari akun | Akun yang bisa login belum tentu admin. Pencabutan role langsung berlaku (cukup hapus barisnya), dan relasinya terlihat jelas di ERD. Dibanding `app_metadata` Supabase Auth, role tidak tertunda sampai token diperbarui (±1 jam). |
 | `user_roles` dipisah dari data profil | Tabel profil biasanya boleh diubah pemiliknya; jika role ada di tabel yang sama, satu aturan yang longgar membuat user bisa menjadikan dirinya admin. `user_roles` tidak punya aturan ubah untuk user sama sekali. |
 | Satu role per akun (`user_id` sebagai PK) | Tidak ada kebutuhan satu orang memegang dua role; struktur lebih sederhana dan mudah diperiksa. |

@@ -5,6 +5,7 @@ import { connection } from "next/server";
 import { logout } from "@/app/admin/actions";
 import { Button } from "@/components/ui/button";
 import { DashboardStats, type DashboardStats as Stats } from "@/components/dashboard-stats";
+import { OrdersRealtime } from "@/components/orders-realtime";
 import { OrdersTable, type Order } from "@/components/orders-table";
 import { createClient } from "@/lib/supabase/server";
 
@@ -14,6 +15,7 @@ export const metadata: Metadata = { title: "Dashboard Admin · Mini E-Commerce" 
 export default function AdminPage() {
   return (
     <main className="mx-auto w-full max-w-6xl flex-1 p-4 sm:p-6">
+      <OrdersRealtime />
       <header className="mb-6 flex items-center justify-between gap-4">
         <h1 className="text-2xl font-semibold">Dashboard</h1>
         <form action={logout}>

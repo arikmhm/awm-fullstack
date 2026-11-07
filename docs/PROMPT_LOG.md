@@ -257,3 +257,20 @@ Hasil: AI mencocokkan hasil uji dengan acceptance criteria: AC1–AC3 lolos, dan
 > note: jangan lakukan perubahan/generate kode atau apapun, sebelum saya setujui rencana implementasi issue 8
 
 Hasil: AI membaca issue #8, fungsi `update_order_status` dari #3, RLS `orders`/`order_items` dari #2, PRD FR-13–FR-15/US-09/US-10/§6.4, dan Flowchart §7. Karena semua aturan status dan pengembalian stok sudah dijamin database, rencananya murni UI tanpa migration baru: query pesanan beserta rinciannya di Server Component, tabel memakai komponen shadcn yang sudah terpasang, filter status di klien, dialog detail berisi alamat dan rincian barang, serta tombol ubah status yang hanya muncul untuk transisi sah dengan konfirmasi sebelum membatalkan. Setelah disetujui, log dev server menunjukkan error `Date.now()` saat `/admin` dirender dengan sesi admin (Cache Components), lalu diperbaiki dengan `await connection()` sebelum query. Lint dan build lolos. Di browser, dua pesanan uji baru dipakai agar pesanan yang ada tidak berubah: satu dibawa sampai Selesai (tombol ubah status hilang), satu dibatalkan dan stok produknya terbukti kembali di database. Filter tiap status dan tampilan 375px serta desktop juga dicek.
+
+## Tahap 15 — Ringkasan Statistik & Grafik Penjualan (Issue #9)
+
+**30. Meminta rencana sebelum eksekusi**
+
+> saya ingin melanjutkan issue #9 cek pada @docs/ISSUES.md dan pada github, sebelum melakukan eksekusi, saya ingin melihat tahapan yang akan kamu lakukan terlebih dahulu.
+> tampilkan outputnya secara ringkas dan rapi serta terstruktur.
+>
+> note: jangan lakukan perubahan/generate kode atau apapun, sebelum saya setujui rencana implementasi issue 9
+
+Hasil: AI membaca issue #9, migration #2/#3, halaman admin dari #8, PRD FR-11/FR-12/US-08, dan ERD §4–§5. Rencananya menyebut tiga keputusan yang perlu disetujui: "jumlah pesanan" menghitung semua status agar sama dengan jumlah baris di tabel transaksi (pesanan dibatalkan tetap tidak dihitung di omzet, barang terjual, dan grafik), hari dikelompokkan dalam zona Asia/Jakarta dengan hari tanpa penjualan tetap bernilai 0, dan grafik memakai shadcn Chart (menambah `recharts`). Setelah disetujui, AI mengerjakan dulu bagian yang tidak butuh database (komponen, halaman, ERD, lint, build), lalu meminta izin sebelum menjalankan migration.
+
+**31. Mengizinkan migration dijalankan**
+
+> Ya, jalankan
+
+Hasil: Migration dijalankan, lalu keempat acceptance criteria diuji dalam transaksi yang di-rollback: angka fungsi sama dengan hitungan langsung dari tabel, pesanan yang dibatalkan mengembalikan omzet ke nilai semula, data kosong menghasilkan angka 0 dan grafik 7 hari bernilai 0, serta anon (juga lewat REST API) dan user tanpa role admin ditolak. Karena login admin di browser berarti mengirim password ke Supabase Auth yang di-hosting, tampilan dicek lewat halaman pratinjau sementara berisi angka hasil uji di lebar 375px dan desktop, lalu halaman itu dihapus sebelum commit. Saat dicek, grafik sempat terlihat kosong; ternyata tangkapan layar diambil saat animasi batang belum selesai, bukan bug. Commit di-push, issue #9 tertutup otomatis, dan deploy Vercel berhasil.

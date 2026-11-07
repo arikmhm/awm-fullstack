@@ -2,10 +2,10 @@
 
 | | |
 |---|---|
-| Versi | 1.0 (draft) |
-| Tanggal | 6 November 2026 |
+| Versi | 1.0 (final) |
+| Tanggal | 8 November 2026 |
 | Penyusun | Arik |
-| Status | Draft untuk review |
+| Status | Final, sesuai aplikasi yang ter-deploy di https://awm-fullstack.vercel.app |
 
 ## 1. Latar Belakang
 Usaha kecil sering menerima pesanan lewat chat, sehingga pencatatan manual, rawan salah hitung, dan pemilik usaha sulit melihat penjualan secara langsung. Mini E-Commerce adalah web pemesanan sederhana: pelanggan bisa memesan tanpa membuat akun, dan admin bisa memantau setiap transaksi yang masuk secara real-time.
@@ -20,7 +20,9 @@ Usaha kecil sering menerima pesanan lewat chat, sehingga pencatatan manual, rawa
 | Peran | Deskripsi | Akses |
 |-------|-----------|-------|
 | Pelanggan (Guest) | Pembeli umum, tidak punya akun | Katalog, keranjang, checkout, lacak pesanan |
-| Admin | Pemilik/pengelola toko | Dashboard, data transaksi, ubah status pesanan, kelola produk & stok (wajib login) |
+| Admin | Pemilik/pengelola toko | Dashboard, data transaksi, ubah status pesanan, kelola produk & stok\* (wajib login) |
+
+\* Kelola produk belum diimplementasikan, direncanakan di [issue #15](https://github.com/arikmhm/awm-fullstack/issues/15).
 
 ## 4. Ruang Lingkup
 
@@ -34,7 +36,7 @@ Usaha kecil sering menerima pesanan lewat chat, sehingga pencatatan manual, rawa
 - Dashboard real-time: tabel transaksi, ringkasan statistik, grafik penjualan.
 - Pengelolaan status pesanan oleh admin.
 - Tampilan responsif (HP dan desktop).
-- Kelola produk oleh admin: tambah, ubah (nama, harga, stok, link gambar), aktifkan/nonaktifkan.
+- Kelola produk oleh admin: tambah, ubah (nama, harga, stok, link gambar), aktifkan/nonaktifkan. *(Belum diimplementasikan, lihat §6.3.)*
 
 **Tidak Termasuk (Out of Scope)**
 - Akun/registrasi pelanggan.
@@ -57,8 +59,10 @@ Usaha kecil sering menerima pesanan lewat chat, sehingga pencatatan manual, rawa
 | US-08 | Admin | melihat ringkasan dan grafik penjualan | memahami performa toko |
 | US-09 | Admin | melihat rincian barang di setiap pesanan | tahu apa yang harus disiapkan |
 | US-10 | Admin | mengubah status pesanan | pelanggan tahu perkembangan pesanannya |
-| US-11 | Admin | menambah produk dan mengubah harga atau stoknya | katalog selalu sesuai kondisi toko |
-| US-12 | Admin | menonaktifkan produk yang tidak dijual lagi | produk hilang dari katalog tanpa merusak riwayat pesanan |
+| US-11\* | Admin | menambah produk dan mengubah harga atau stoknya | katalog selalu sesuai kondisi toko |
+| US-12\* | Admin | menonaktifkan produk yang tidak dijual lagi | produk hilang dari katalog tanpa merusak riwayat pesanan |
+
+\* Belum diimplementasikan (§6.3).
 
 ## 6. Kebutuhan Fungsional
 
@@ -88,6 +92,8 @@ Usaha kecil sering menerima pesanan lewat chat, sehingga pencatatan manual, rawa
 | FR-17 | Admin dapat logout. |
 
 ### 6.3 Kelola Produk (Admin)
+> **Belum diimplementasikan.** Fitur ini berprioritas *could* dan direncanakan di [issue #15](https://github.com/arikmhm/awm-fullstack/issues/15). Database sudah siap (kolom `is_active` dan aturan RLS admin tambah/ubah produk), tetapi halaman admin belum dibuat. Untuk sementara produk diubah lewat Supabase Table Editor. FR-22 sudah berlaku karena harga disalin ke `order_items` saat checkout.
+
 | ID | Kebutuhan |
 |----|-----------|
 | FR-18 | Admin melihat daftar semua produk (aktif dan nonaktif) beserta harga dan stok. |
@@ -108,7 +114,7 @@ Menunggu (pending) → Diproses (processing) → Selesai (completed)
 | ID | Kebutuhan |
 |----|-----------|
 | NFR-01 | Responsif: nyaman dipakai di layar HP (lebar 375px) dan desktop. |
-| NFR-02 | Keamanan: data pesanan hanya bisa dibaca admin; pelanggan hanya bisa melihat pesanannya sendiri lewat kode + nomor HP. |
+| NFR-02 | Keamanan: data pesanan hanya bisa dibaca admin; pelanggan hanya bisa melihat pesanan lewat kode pesanan atau nomor HP, tanpa nama, alamat, dan nomor HP (FR-08). |
 | NFR-03 | Real-time: pesanan baru tampil di dashboard dalam hitungan detik. |
 | NFR-04 | Integritas data: tidak ada pesanan yang melebihi stok, termasuk saat dua orang membeli bersamaan. |
 | NFR-05 | Dapat diakses publik melalui URL hasil deploy. |

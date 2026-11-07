@@ -2,10 +2,11 @@
 
 | | |
 |---|---|
-| Versi | 1.0 (draft) |
-| Tanggal | 6 November 2026 |
+| Versi | 1.0 (final) |
+| Tanggal | 8 November 2026 |
 | Penyusun | Arik |
 | Database | PostgreSQL (Supabase) |
+| Status | Final, sesuai `supabase/migrations/` |
 
 ## 1. Diagram
 
@@ -127,7 +128,7 @@ Kombinasi `order_id` + `product_id` dibuat unik, sehingga produk yang sama dalam
 ### 2.6 Tipe `app_role`
 | Nilai | Arti |
 |-------|------|
-| `admin` | Akses penuh ke dashboard, pesanan, dan kelola produk |
+| `admin` | Akses penuh ke dashboard, pesanan, dan kelola produk (halaman kelola produk belum dibuat, [issue #15](https://github.com/arikmhm/awm-fullstack/issues/15)) |
 
 Saat ini hanya ada satu role. Role baru (misalnya `staff` yang hanya boleh mengubah status pesanan) cukup ditambahkan sebagai nilai enum baru beserta aturan RLS-nya, tanpa mengubah struktur tabel.
 
@@ -161,10 +162,12 @@ Saat ini hanya ada satu role. Role baru (misalnya `staff` yang hanya boleh mengu
 
 | Tabel | Pelanggan (tanpa login) | Admin (login, role admin) |
 |-------|-------------------------|---------------|
-| products | Baca produk aktif saja | Baca, tambah, ubah |
+| products | Baca produk aktif saja | Baca, tambah, ubah\* |
 | orders | Tidak ada akses langsung | Baca, ubah status |
 | order_items | Tidak ada akses langsung | Baca |
 | user_roles | Tidak ada akses | Tidak ada akses langsung (hanya dibaca lewat `is_admin()`) |
+
+\* Aturan RLS tambah/ubah produk sudah ada di database, tetapi halaman kelola produknya belum dibuat ([issue #15](https://github.com/arikmhm/awm-fullstack/issues/15)).
 
 "Admin" di tabel ini berarti user yang login **dan** punya baris `role = 'admin'` di `user_roles`. Aturan RLS memeriksanya lewat satu fungsi:
 

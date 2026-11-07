@@ -2,10 +2,11 @@
 
 | | |
 |---|---|
-| Versi | 1.0 (draft) |
-| Tanggal | 6 November 2026 |
+| Versi | 1.0 (final) |
+| Tanggal | 8 November 2026 |
 | Penyusun | Arik |
 | Acuan | PRD.md, ERD.md |
+| Status | Final, sesuai aplikasi yang ter-deploy |
 
 Dokumen ini menggambarkan alur sistem dari sisi pelanggan, database, dan admin.
 
@@ -19,16 +20,18 @@ flowchart LR
     CO --> DB[(Database Supabase)]
     DB --> S[Halaman sukses + kode pesanan]
     S --> T[Lacak pesanan]
-    T -. cek status berkala .-> DB
+    T -. cari / muat ulang untuk status terbaru .-> DB
 
     A([Admin]) --> L[Login]
     L --> D[Dashboard]
     DB -. realtime: pesanan baru / berubah .-> D
     D --> US[Ubah status pesanan]
-    D --> KP[Kelola produk]
+    D -.-> KP["Kelola produk (belum dibuat, issue 15)"]
     US --> DB
-    KP --> DB
+    KP -.-> DB
 ```
+
+Garis putus-putus ke *Kelola produk* menandakan alur yang belum diimplementasikan (lihat §8).
 
 ## 2. Alur Pelanggan: Belanja sampai Checkout
 
@@ -180,7 +183,9 @@ flowchart TD
     A([Admin pilih status baru]) --> B{Perpindahan status sah?}
     B -- Tidak --> X[Tolak + pesan kesalahan]
     B -- Ya --> C{Status baru = dibatalkan?}
-    C -- Ya --> D[Kembalikan stok sesuai rincian pesanan]
+    C -- Ya --> C2{Admin konfirmasi pembatalan?}
+    C2 -- Tidak --> Z([Status tidak berubah])
+    C2 -- Ya --> D[Kembalikan stok sesuai rincian pesanan]
     C -- Tidak --> E[Ubah status]
     D --> E
     E --> F[Simpan dalam satu transaksi]
@@ -188,6 +193,8 @@ flowchart TD
 ```
 
 ## 8. Alur Kelola Produk
+
+> **Belum diimplementasikan.** Alur ini adalah rancangan untuk [issue #15](https://github.com/arikmhm/awm-fullstack/issues/15) (prioritas *could*). Untuk sementara produk diubah lewat Supabase Table Editor.
 
 ```mermaid
 flowchart TD

@@ -2,8 +2,8 @@
 
 | | |
 |---|---|
-| Versi | 1.0 |
-| Tanggal | 7 November 2026 |
+| Versi | 1.1 (final) |
+| Tanggal | 8 November 2026 |
 | Penyusun | Arik |
 | Sumber | [GitHub Issues](https://github.com/arikmhm/awm-fullstack/issues) · [Milestones](https://github.com/arikmhm/awm-fullstack/milestones) |
 
@@ -32,27 +32,31 @@ Sebuah issue dianggap selesai jika:
 5. Issue tertutup lewat commit `Closes #n`.
 
 ## 4. Daftar Issue
-Urutan tabel = urutan pengerjaan. Estimasi dengan bantuan AI.
+Urutan tabel = urutan pengerjaan. Estimasi dengan bantuan AI. Status per 8 November 2026.
 
-| # | Judul | Milestone | Prioritas | Est. | Dependensi |
-|---|-------|-----------|-----------|------|------------|
-| [#1](https://github.com/arikmhm/awm-fullstack/issues/1) | Setup project Next.js + Supabase & deploy awal ke Vercel | M1 Fondasi | must | 1j | – |
-| [#2](https://github.com/arikmhm/awm-fullstack/issues/2) | Skema database, RLS, seed & realtime | M1 Fondasi | must | 1j | #1 |
-| [#3](https://github.com/arikmhm/awm-fullstack/issues/3) | Fungsi DB pesanan: `create_order`, `get_order_status`, `update_order_status` | M1 Fondasi | must | 1.5j | #2 |
-| [#4](https://github.com/arikmhm/awm-fullstack/issues/4) | Katalog produk | M2 Pelanggan | must | 0.5j | #2 |
-| [#5](https://github.com/arikmhm/awm-fullstack/issues/5) | Keranjang multi-produk | M2 Pelanggan | must | 1j | #4 |
-| [#6](https://github.com/arikmhm/awm-fullstack/issues/6) | Checkout tanpa login & halaman sukses | M2 Pelanggan | must | 1j | #3, #5 |
-| [#7](https://github.com/arikmhm/awm-fullstack/issues/7) | Login admin & proteksi halaman berbasis role | M3 Admin | must | 1j | #2 |
-| [#8](https://github.com/arikmhm/awm-fullstack/issues/8) | Tabel transaksi: rincian, filter status, ubah status | M3 Admin | must | 1.5j | #3, #7 |
-| [#9](https://github.com/arikmhm/awm-fullstack/issues/9) | Ringkasan statistik & grafik penjualan | M3 Admin | must | 1.5j | #7 |
-| [#10](https://github.com/arikmhm/awm-fullstack/issues/10) | Dashboard real-time + notifikasi pesanan baru | M3 Admin | must | 0.5j | #8, #9 |
-| [#11](https://github.com/arikmhm/awm-fullstack/issues/11) | Lacak pesanan pelanggan | M2 Pelanggan | should | 1j | #3, #6 |
-| [#12](https://github.com/arikmhm/awm-fullstack/issues/12) | Tampilan responsif & state loading/kosong/error | M4 Rilis | must | 1j | #4–#11 |
-| [#13](https://github.com/arikmhm/awm-fullstack/issues/13) | Verifikasi akhir di URL produksi | M4 Rilis | must | 0.5j | #12 |
-| [#14](https://github.com/arikmhm/awm-fullstack/issues/14) | Dokumentasi submission: README, user guide + screenshot, finalisasi docs | M4 Rilis | must | 1j | #13 |
-| [#15](https://github.com/arikmhm/awm-fullstack/issues/15) | Kelola produk (tambah, ubah, aktif/nonaktif) | M4 Rilis | could | 1.5j | #7 |
+| # | Judul | Milestone | Prioritas | Est. | Dependensi | Status |
+|---|-------|-----------|-----------|------|------------|--------|
+| [#1](https://github.com/arikmhm/awm-fullstack/issues/1) | Setup project Next.js + Supabase & deploy awal ke Vercel | M1 Fondasi | must | 1j | – | ✅ Selesai |
+| [#2](https://github.com/arikmhm/awm-fullstack/issues/2) | Skema database, RLS, seed & realtime | M1 Fondasi | must | 1j | #1 | ✅ Selesai |
+| [#3](https://github.com/arikmhm/awm-fullstack/issues/3) | Fungsi DB pesanan: `create_order`, `get_order_status`\*, `update_order_status` | M1 Fondasi | must | 1.5j | #2 | ✅ Selesai |
+| [#4](https://github.com/arikmhm/awm-fullstack/issues/4) | Katalog produk | M2 Pelanggan | must | 0.5j | #2 | ✅ Selesai |
+| [#5](https://github.com/arikmhm/awm-fullstack/issues/5) | Keranjang multi-produk | M2 Pelanggan | must | 1j | #4 | ✅ Selesai |
+| [#6](https://github.com/arikmhm/awm-fullstack/issues/6) | Checkout tanpa login & halaman sukses | M2 Pelanggan | must | 1j | #3, #5 | ✅ Selesai |
+| [#7](https://github.com/arikmhm/awm-fullstack/issues/7) | Login admin & proteksi halaman berbasis role | M3 Admin | must | 1j | #2 | ✅ Selesai |
+| [#8](https://github.com/arikmhm/awm-fullstack/issues/8) | Tabel transaksi: rincian, filter status, ubah status | M3 Admin | must | 1.5j | #3, #7 | ✅ Selesai |
+| [#9](https://github.com/arikmhm/awm-fullstack/issues/9) | Ringkasan statistik & grafik penjualan | M3 Admin | must | 1.5j | #7 | ✅ Selesai |
+| [#10](https://github.com/arikmhm/awm-fullstack/issues/10) | Dashboard real-time + notifikasi pesanan baru | M3 Admin | must | 0.5j | #8, #9 | ✅ Selesai |
+| [#11](https://github.com/arikmhm/awm-fullstack/issues/11) | Lacak pesanan pelanggan | M2 Pelanggan | should | 1j | #3, #6 | ✅ Selesai |
+| [#12](https://github.com/arikmhm/awm-fullstack/issues/12) | Tampilan responsif & state loading/kosong/error | M4 Rilis | must | 1j | #4–#11 | ✅ Selesai |
+| [#13](https://github.com/arikmhm/awm-fullstack/issues/13) | Verifikasi akhir di URL produksi | M4 Rilis | must | 0.5j | #12 | ✅ Selesai |
+| [#14](https://github.com/arikmhm/awm-fullstack/issues/14) | Dokumentasi submission: README, user guide + screenshot, finalisasi docs | M4 Rilis | must | 1j | #13 | ✅ Selesai |
+| [#15](https://github.com/arikmhm/awm-fullstack/issues/15) | Kelola produk (tambah, ubah, aktif/nonaktif) | M4 Rilis | could | 1.5j | #7 | Belum dikerjakan |
 
 Total ±15 jam; jalur wajib (tanpa #11 dan #15) ±12.5 jam.
+
+\* `get_order_status(code, phone)` diganti `track_orders(keyword)` di #11, agar pelacakan cukup dengan kode **atau** nomor HP.
+
+**Ringkasan akhir:** 14 dari 15 issue selesai, termasuk semua issue *must* dan *should*. #15 (*could*) belum dikerjakan dan ditandai di PRD §6.3 dan Flowchart §8.
 
 ## 5. Keputusan Tambahan dari Penyusunan Backlog
 Saat menyusun issue, ditemukan empat hal yang belum tertulis di PRD/ERD. Semuanya dimasukkan ke issue terkait, dan dokumennya diperbarui di issue tersebut:

@@ -3,7 +3,7 @@
 |         |                           |
 | ------- | ------------------------- |
 | AI Tool | Claude Code (Claude Opus) |
-| Tanggal | 6–7 November 2026         |
+| Tanggal | 6–8 November 2026         |
 
 Dokumen ini mencatat prompt yang saya berikan ke AI beserta hasilnya, diurutkan sesuai alur pengerjaan. Prompt ditulis apa adanya. Prompt yang hanya berupa persetujuan singkat ("setuju", "boleh") tidak dicantumkan, karena hasilnya sudah tercakup di prompt sebelumnya.
 
@@ -338,3 +338,28 @@ Hasil: AI membaca issue #12, PRD NFR-01, semua halaman, dan komponen dari #4–#
 > note: jangan lakukan perubahan/generate kode atau apapun, sebelum saya setujui rencana implementasi issue 13
 
 Hasil: AI membaca issue #13, PRD §9, dan acceptance criteria #3, lalu meminta dua keputusan: data uji di database produksi ditandai `UJI-13`, dibatalkan, lalu dihapus; admin login sendiri di browser pane karena AI tidak mengetik password di situs produksi. Setelah rencana disetujui, semua kriteria PRD §9 lolos di produksi. Checkout 2 produk tanpa login selesai sekitar 36 detik. Pesanan baru muncul di dashboard yang sudah terbuka tanpa refresh. Ringkasan dan grafik sama dengan query SQL. `/admin` tanpa sesi diarahkan ke `/admin/login`. Harga palsu dari klien diabaikan. Semua halaman bisa diakses di URL Vercel. Uji kritis #3 dijalankan dengan `psql` di dalam transaksi yang di-rollback: stok kurang, stok habis, dan produk nonaktif ditolak; transisi status tidak sah ditolak; pembatalan mengembalikan stok; non-admin dan anon tidak bisa mengubah status. Uji stok bersamaan memakai dua request paralel ke REST API produksi untuk stok terakhir: satu berhasil, satu ditolak, dan stok tidak minus. Kriteria "kode benar + HP salah" diganti uji `track_orders`, karena sejak #11 pelacakan memakai kode atau HP: format `08…`, `62…`, dan `+62…` memberi hasil yang sama, sedangkan kode atau HP salah memberi `[]`. Tidak ada error di console; yang muncul hanya warning font preload bawaan Next.js. Di 375px tidak ada scroll horizontal. Tidak ditemukan bug baru. Kedua pesanan uji dibatalkan lewat dashboard dan fungsi admin, lalu dihapus atas persetujuan user, dan stok kembali sama seperti awal.
+
+## Tahap 20 — Dokumentasi Submission (Issue #14)
+
+**39. Meminta rencana sebelum eksekusi**
+
+> saya ingin melanjutkan issue #14 cek pada @docs/ISSUES.md dan pada github, sebelum melakukan eksekusi, saya ingin melihat tahapan yang akan kamu lakukan terlebih dahulu.
+> tampilkan outputnya secara ringkas dan rapi serta terstruktur.
+>
+> note: jangan lakukan perubahan/generate kode atau apapun, sebelum saya setujui rencana implementasi issue 14
+
+Hasil: AI membaca issue #14, README, dan PRD/ERD/Flowchart, lalu menemukan tiga hal: README masih template `create-next-app`, ketiga dokumen masih berstatus draft, dan fitur Kelola Produk (#15) sudah tertulis di dokumen padahal belum dibuat. Database produksi juga masih berisi 15 pesanan uji. Rencana 8 tahap disusun dengan keputusan: #15 ditandai "belum diimplementasikan" di PRD, ERD, dan Flowchart, bukan dikerjakan dulu.
+
+**40. Memilih cara screenshot dan mereset data**
+
+> menurutmu lebih baik Ai lewat chrome atau browser claude?
+>
+> misal sekarang di hapus dulu semua data transaksinya gimana? disetting ke migrasi seperti diawal, sebelum ada co co?
+
+Hasil: AI menjelaskan bahwa screenshot dari browser pane Claude hanya masuk ke percakapan dan tidak bisa disimpan sebagai file, sehingga dipilih Chrome yang dikendalikan lewat DevTools Protocol (script Node kecil di luar repo, tanpa dependency baru). Setelah dikonfirmasi, 15 pesanan uji dihapus dan stok dikembalikan ke nilai `seed.sql` dalam satu transaksi. Pesanan contoh dengan data wajar dibuat lewat `create_order`, dan statusnya diubah lewat `update_order_status` sebagai admin, sehingga aturan transisi status tetap diperiksa database. Satu pesanan dibuat lewat checkout sungguhan untuk screenshot halaman sukses. Admin login sendiri di jendela Chrome karena AI tidak mengetik password di situs produksi. Saat mengambil screenshot, klik otomatis sempat mengenai tombol Batalkan, tetapi dialog konfirmasi "Batalkan pesanan? Stok akan dikembalikan." mencegah pembatalan, dan status pesanan dicek ulang di database. 13 screenshot (desktop dan 375px) disimpan di `docs/screenshots/`.
+
+**41. Meninjau gambar produk**
+
+> kondisi gambar produk saat ini masih belum sesuai, menurutmu gimana? apakah perlu saya sesuaikan?
+
+Hasil: AI setuju gambar perlu diganti, karena `picsum.photos` memberi foto acak yang tidak sesuai nama produk dan akan terlihat di semua screenshot. AI mencari kandidat di Unsplash (hanya foto gratis, tanpa logo merek mencolok) dan menampilkannya untuk disetujui. Celana Chino disebut sebagai pilihan paling lemah karena berupa foto model. Setelah disetujui, link diganti di `seed.sql` dan di database produksi. Kode tidak perlu diubah karena `ProductImage` memakai `<img>` biasa. Setelah itu README ditulis ulang (menjalankan dari nol, arsitektur, akun admin, deploy), `USER_GUIDE.md` dibuat untuk pelanggan dan admin, dan PRD/ERD/Flowchart/ISSUES difinalkan. Flowchart §1 diperbaiki karena masih menulis "cek status berkala", padahal sejak #11 pelanggan cukup mencari ulang atau memuat ulang halaman. Klaim di ERD bahwa pendaftaran publik dimatikan dicek ke endpoint settings Supabase Auth. Semua tautan dicek (link relatif ada file-nya, link eksternal 200), 10 diagram Mermaid berhasil di-render, dan `npm run build` lolos.

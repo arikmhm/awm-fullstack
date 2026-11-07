@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Suspense } from "react";
-import { LogOut } from "lucide-react";
+import { LogOut, Package } from "lucide-react";
 import { connection } from "next/server";
 import { logout } from "@/app/admin/actions";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { DashboardStats, type DashboardStats as Stats } from "@/components/dashboard-stats";
 import { OrdersRealtime } from "@/components/orders-realtime";
 import { OrdersTable, type Order } from "@/components/orders-table";
@@ -18,11 +19,16 @@ export default function AdminPage() {
       <OrdersRealtime />
       <header className="mb-6 flex items-center justify-between gap-4">
         <h1 className="text-2xl font-semibold">Dashboard</h1>
-        <form action={logout}>
-          <Button type="submit" variant="outline">
-            <LogOut /> Logout
-          </Button>
-        </form>
+        <div className="flex items-center gap-2">
+          <Link href="/admin/products" className={buttonVariants({ variant: "outline" })}>
+            <Package /> Produk
+          </Link>
+          <form action={logout}>
+            <Button type="submit" variant="outline">
+              <LogOut /> <span className="max-sm:sr-only">Logout</span>
+            </Button>
+          </form>
+        </div>
       </header>
       <section aria-labelledby="stats-title" className="mb-8 flex flex-col gap-4">
         <h2 id="stats-title" className="text-lg font-semibold">Ringkasan</h2>

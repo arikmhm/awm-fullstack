@@ -19,6 +19,8 @@ import { createClient } from "@/lib/supabase/client";
 import { NEXT_STATUS, STATUS_CLASS, STATUS_LABEL, type OrderStatus } from "@/lib/order-status";
 import { formatRupiah } from "@/lib/utils";
 
+export type OrderItem = { product_name: string; unit_price: number; qty: number; subtotal: number };
+
 export type Order = {
   id: string;
   code: string;
@@ -28,7 +30,7 @@ export type Order = {
   customer_address: string;
   total: number;
   status: OrderStatus;
-  order_items: { id: number; product_name: string; unit_price: number; qty: number; subtotal: number }[];
+  order_items: (OrderItem & { id: number })[];
 };
 
 type Filter = OrderStatus | "all";
@@ -46,13 +48,13 @@ const ACTION_LABEL: Record<OrderStatus, string> = {
 };
 
 // Zona waktu tetap agar hasil server dan browser sama (tanpa hydration mismatch).
-const dateFormat = new Intl.DateTimeFormat("id-ID", {
+export const dateFormat = new Intl.DateTimeFormat("id-ID", {
   dateStyle: "medium",
   timeStyle: "short",
   timeZone: "Asia/Jakarta",
 });
 
-function StatusBadge({ status }: { status: OrderStatus }) {
+export function StatusBadge({ status }: { status: OrderStatus }) {
   return <Badge className={STATUS_CLASS[status]}>{STATUS_LABEL[status]}</Badge>;
 }
 
@@ -177,30 +179,7 @@ function OrderDetail({ order }: { order: Order }) {
         <dd className="whitespace-pre-line">{order.customer_address}</dd>
       </dl>
 
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Barang</TableHead>
-            <TableHead className="text-right">Harga</TableHead>
-            <TableHead className="text-right">Qty</TableHead>
-            <TableHead className="text-right">Subtotal</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {order.order_items.map((i) => (
-            <TableRow key={i.id}>
-              <TableCell className="whitespace-normal">{i.product_name}</TableCell>
-              <TableCell className="text-right tabular-nums">{formatRupiah(i.unit_price)}</TableCell>
-              <TableCell className="text-right tabular-nums">{i.qty}</TableCell>
-              <TableCell className="text-right tabular-nums">{formatRupiah(i.subtotal)}</TableCell>
-            </TableRow>
-          ))}
-          <TableRow className="font-semibold">
-            <TableCell colSpan={3}>Total</TableCell>
-            <TableCell className="text-right tabular-nums">{formatRupiah(order.total)}</TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
+      <OrderItemsTable items={order.order_items} total={order.total} />
 
       {next.length > 0 && (
         <DialogFooter>
@@ -230,5 +209,35 @@ function OrderDetail({ order }: { order: Order }) {
         </DialogFooter>
       )}
     </DialogContent>
+  );
+}
+
+// Dipakai juga oleh halaman lacak pesanan pelanggan.
+export function OrderItemsTable({ items, total }: { items: OrderItem[]; total: number }) {
+  return (
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Barang</TableHead>
+          <TableHead className="text-right">Harga</TableHead>
+          <TableHead className="text-right">Qty</TableHead>
+          <TableHead className="text-right">Subtotal</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {items.map((i, idx) => (
+          <TableRow key={idx}>
+            <TableCell className="whitespace-normal">{i.product_name}</TableCell>
+            <TableCell className="text-right tabular-nums">{formatRupiah(i.unit_price)}</TableCell>
+            <TableCell className="text-right tabular-nums">{i.qty}</TableCell>
+            <TableCell className="text-right tabular-nums">{formatRupiah(i.subtotal)}</TableCell>
+          </TableRow>
+        ))}
+        <TableRow className="font-semibold">
+          <TableCell colSpan={3}>Total</TableCell>
+          <TableCell className="text-right tabular-nums">{formatRupiah(total)}</TableCell>
+        </TableRow>
+      </TableBody>
+    </Table>
   );
 }

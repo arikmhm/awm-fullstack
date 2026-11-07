@@ -212,3 +212,14 @@ Hasil: AI membaca issue #4, skema & seed produk, PRD FR-01, Flowchart §2, dan d
 > note: jangan lakukan perubahan/generate kode atau apapun, sebelum saya setujui rencana implementasi issue 5
 
 Hasil: AI membaca issue #5, halaman katalog dari #4, komponen `Sheet` yang sudah ada, PRD FR-02/FR-03/US-02, dan Flowchart §2. Rencananya: keranjang disimpan di `localStorage` lewat `useSyncExternalStore` bawaan React (tanpa library tambahan), qty dibatasi stok, panel keranjang memakai `Sheet` dengan badge jumlah item di header, dan harga di keranjang hanya untuk tampilan karena total dihitung ulang server di #6. Setelah disetujui, saat dicek di lebar 375px panel ternyata hanya selebar 3/4 layar sehingga subtotal terpotong, lalu panel dibuat selebar layar di HP. Lint dan build lolos, semua acceptance criteria dicek di 375px dan desktop.
+
+## Tahap 12 — Checkout & Halaman Sukses (Issue #6)
+
+**26. Meminta rencana sebelum eksekusi**
+
+> saya ingin melanjutkan issue #6 cek pada @docs/ISSUES.md dan pada github, sebelum melakukan eksekusi, saya ingin melihat tahapan yang akan kamu lakukan terlebih dahulu.
+> tampilkan outputnya secara ringkas dan rapi serta terstruktur.
+>
+> note: jangan lakukan perubahan/generate kode atau apapun, sebelum saya setujui rencana implementasi issue 6
+
+Hasil: AI membaca issue #6, fungsi `create_order` dari #3, keranjang dari #5, PRD FR-04–FR-07, dan Flowchart §2. Karena `create_order` hanya mengembalikan kode dan total, AI menanyakan cara menampilkan ringkasan di halaman sukses; dipilih route `/checkout/success` dengan ringkasan disimpan di `sessionStorage`. Rencananya: form dengan validasi per field, hanya `product_id + qty` yang dikirim, tombol dikunci saat proses agar tidak ada pesanan ganda, dan error server (mis. stok tidak cukup) ditampilkan lalu kembali ke katalog. Setelah disetujui, saat diuji di lebar 375px tombol di halaman sukses ternyata gepeng dan tombol outline kehilangan garis tepi, lalu keduanya diperbaiki. Lint dan build lolos, semua acceptance criteria dicek di 375px dan desktop, termasuk klik ganda yang terbukti hanya membuat satu pesanan.

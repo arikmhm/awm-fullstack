@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| Versi | 1.0 (final) |
+| Versi | 1.1 (final) |
 | Tanggal | 8 November 2026 |
 | Penyusun | Arik |
 | Status | Final, sesuai aplikasi yang ter-deploy di https://awm-fullstack.vercel.app |
@@ -20,9 +20,7 @@ Usaha kecil sering menerima pesanan lewat chat, sehingga pencatatan manual, rawa
 | Peran | Deskripsi | Akses |
 |-------|-----------|-------|
 | Pelanggan (Guest) | Pembeli umum, tidak punya akun | Katalog, keranjang, checkout, lacak pesanan |
-| Admin | Pemilik/pengelola toko | Dashboard, data transaksi, ubah status pesanan, kelola produk & stok\* (wajib login) |
-
-\* Kelola produk belum diimplementasikan, direncanakan di [issue #15](https://github.com/arikmhm/awm-fullstack/issues/15).
+| Admin | Pemilik/pengelola toko | Dashboard, data transaksi, ubah status pesanan, kelola produk & stok (wajib login) |
 
 ## 4. Ruang Lingkup
 
@@ -36,7 +34,7 @@ Usaha kecil sering menerima pesanan lewat chat, sehingga pencatatan manual, rawa
 - Dashboard real-time: tabel transaksi, ringkasan statistik, grafik penjualan.
 - Pengelolaan status pesanan oleh admin.
 - Tampilan responsif (HP dan desktop).
-- Kelola produk oleh admin: tambah, ubah (nama, harga, stok, link gambar), aktifkan/nonaktifkan. *(Belum diimplementasikan, lihat §6.3.)*
+- Kelola produk oleh admin: tambah, ubah (nama, harga, stok, link gambar), aktifkan/nonaktifkan.
 
 **Tidak Termasuk (Out of Scope)**
 - Akun/registrasi pelanggan.
@@ -59,10 +57,8 @@ Usaha kecil sering menerima pesanan lewat chat, sehingga pencatatan manual, rawa
 | US-08 | Admin | melihat ringkasan dan grafik penjualan | memahami performa toko |
 | US-09 | Admin | melihat rincian barang di setiap pesanan | tahu apa yang harus disiapkan |
 | US-10 | Admin | mengubah status pesanan | pelanggan tahu perkembangan pesanannya |
-| US-11\* | Admin | menambah produk dan mengubah harga atau stoknya | katalog selalu sesuai kondisi toko |
-| US-12\* | Admin | menonaktifkan produk yang tidak dijual lagi | produk hilang dari katalog tanpa merusak riwayat pesanan |
-
-\* Belum diimplementasikan (§6.3).
+| US-11 | Admin | menambah produk dan mengubah harga atau stoknya | katalog selalu sesuai kondisi toko |
+| US-12 | Admin | menonaktifkan produk yang tidak dijual lagi | produk hilang dari katalog tanpa merusak riwayat pesanan |
 
 ## 6. Kebutuhan Fungsional
 
@@ -92,7 +88,7 @@ Usaha kecil sering menerima pesanan lewat chat, sehingga pencatatan manual, rawa
 | FR-17 | Admin dapat logout. |
 
 ### 6.3 Kelola Produk (Admin)
-> **Belum diimplementasikan.** Fitur ini berprioritas *could* dan direncanakan di [issue #15](https://github.com/arikmhm/awm-fullstack/issues/15). Database sudah siap (kolom `is_active` dan aturan RLS admin tambah/ubah produk), tetapi halaman admin belum dibuat. Untuk sementara produk diubah lewat Supabase Table Editor. FR-22 sudah berlaku karena harga disalin ke `order_items` saat checkout.
+Halaman `/admin/products` ([issue #15](https://github.com/arikmhm/awm-fullstack/issues/15)). FR-21 dan FR-22 dijamin database: `create_order` menolak produk nonaktif, dan harga disalin ke `order_items` saat checkout.
 
 | ID | Kebutuhan |
 |----|-----------|

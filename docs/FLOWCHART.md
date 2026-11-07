@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| Versi | 1.0 (final) |
+| Versi | 1.1 (final) |
 | Tanggal | 8 November 2026 |
 | Penyusun | Arik |
 | Acuan | PRD.md, ERD.md |
@@ -26,12 +26,10 @@ flowchart LR
     L --> D[Dashboard]
     DB -. realtime: pesanan baru / berubah .-> D
     D --> US[Ubah status pesanan]
-    D -.-> KP["Kelola produk (belum dibuat, issue 15)"]
+    D --> KP[Kelola produk]
     US --> DB
-    KP -.-> DB
+    KP --> DB
 ```
-
-Garis putus-putus ke *Kelola produk* menandakan alur yang belum diimplementasikan (lihat §8).
 
 ## 2. Alur Pelanggan: Belanja sampai Checkout
 
@@ -194,7 +192,7 @@ flowchart TD
 
 ## 8. Alur Kelola Produk
 
-> **Belum diimplementasikan.** Alur ini adalah rancangan untuk [issue #15](https://github.com/arikmhm/awm-fullstack/issues/15) (prioritas *could*). Untuk sementara produk diubah lewat Supabase Table Editor.
+Halaman `/admin/products` ([issue #15](https://github.com/arikmhm/awm-fullstack/issues/15)). Tombol Tambah dan Ubah membuka form di dialog; tombol Aktifkan/Nonaktifkan langsung menyimpan.
 
 ```mermaid
 flowchart TD

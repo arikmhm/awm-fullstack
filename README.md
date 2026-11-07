@@ -20,6 +20,7 @@ Web pemesanan sederhana untuk usaha kecil. Pelanggan bisa memesan beberapa produ
 - Tabel transaksi dengan filter status dan rincian barang.
 - Ubah status pesanan: Menunggu → Diproses → Selesai, atau Dibatalkan (stok dikembalikan).
 - Pesanan baru muncul otomatis tanpa refresh, disertai notifikasi.
+- Kelola produk: tambah, ubah nama/harga/stok/gambar, dan aktifkan/nonaktifkan (tanpa hapus, agar riwayat pesanan tetap utuh).
 
 **Keamanan & integritas data**
 - Harga dan total dihitung ulang oleh database, jadi harga yang diubah dari browser diabaikan.
@@ -57,7 +58,7 @@ Detail lengkap ada di [PRD](docs/PRD.md), [ERD](docs/ERD.md), dan [Flowchart](do
 
 ```
 src/
-  app/                  halaman: katalog (/), /checkout, /checkout/success, /track, /admin, /admin/login
+  app/                  halaman: katalog (/), /checkout, /checkout/success, /track, /admin, /admin/products, /admin/login
   components/           komponen halaman (keranjang, form checkout, tabel transaksi, dll.)
   components/ui/        komponen shadcn/ui
   lib/                  keranjang (localStorage), label status, format Rupiah, client Supabase
@@ -145,4 +146,3 @@ Perintah lain: `npm run build` (build produksi), `npm run lint`.
 
 - Pembayaran dilakukan di luar sistem (transfer/COD); status diperbarui manual oleh admin.
 - Tanpa ongkos kirim, pajak, dan akun pelanggan.
-- Kelola produk dari dashboard (tambah, ubah, aktif/nonaktif) belum diimplementasikan ([issue #15](https://github.com/arikmhm/awm-fullstack/issues/15)). Untuk sementara produk diubah lewat Supabase Table Editor.

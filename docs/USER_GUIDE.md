@@ -2,14 +2,14 @@
 
 | | |
 |---|---|
-| Versi | 1.0 |
+| Versi | 1.1 |
 | Tanggal | 8 November 2026 |
 | Penyusun | Arik |
 | Alamat website | https://awm-fullstack.vercel.app |
 
 Panduan ini menjelaskan cara memakai website dari dua sisi:
 - **Pelanggan**: memesan barang tanpa perlu membuat akun.
-- **Admin (pemilik toko)**: memantau pesanan yang masuk dan memperbarui statusnya.
+- **Admin (pemilik toko)**: memantau pesanan yang masuk, memperbarui statusnya, dan mengelola produk.
 
 Semua gambar di panduan ini diambil dari website yang sudah online.
 
@@ -141,6 +141,17 @@ Dashboard tidak perlu dimuat ulang. Begitu pelanggan menyelesaikan checkout, not
 
 Perubahan status juga langsung terlihat di dashboard lain yang sedang terbuka.
 
+### B6. Kelola produk
+Klik **Produk** di kanan atas dashboard. Semua produk tampil di sini, termasuk yang nonaktif (berwarna abu-abu).
+
+![Halaman kelola produk](screenshots/14-kelola-produk.png)
+
+- **Tambah produk**: isi nama, harga, stok, dan link gambar (opsional), lalu klik **Simpan**. Produk langsung tampil di katalog.
+- **Ubah**: form berisi data produk saat ini. Harga dan stok harus bilangan bulat, minimal 0.
+- **Nonaktifkan**: produk hilang dari katalog dan tidak bisa dipesan, tetapi tetap tercatat di pesanan lama. Klik **Aktifkan** untuk menampilkannya lagi.
+
+Produk tidak bisa dihapus, agar riwayat pesanan tetap utuh. Mengubah harga hanya berlaku untuk pesanan baru; pesanan lama tetap memakai harga saat checkout.
+
 ---
 
 ## Bagian C — Arti Status Pesanan
@@ -166,4 +177,4 @@ Lacak pesanan dengan nomor HP yang dipakai saat checkout.
 Pembayaran dilakukan di luar website (transfer atau COD) sesuai kesepakatan dengan toko. Setelah itu admin memperbarui status pesanan.
 
 **Bisakah admin menambah atau mengubah produk dari dashboard?**
-Belum. Fitur ini direncanakan di [issue #15](https://github.com/arikmhm/awm-fullstack/issues/15). Untuk sementara produk diubah lewat Supabase Table Editor.
+Bisa. Lihat [B6. Kelola produk](#b6-kelola-produk).

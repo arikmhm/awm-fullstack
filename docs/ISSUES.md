@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| Versi | 1.1 (final) |
+| Versi | 1.2 (final) |
 | Tanggal | 8 November 2026 |
 | Penyusun | Arik |
 | Sumber | [GitHub Issues](https://github.com/arikmhm/awm-fullstack/issues) · [Milestones](https://github.com/arikmhm/awm-fullstack/milestones) |
@@ -50,13 +50,13 @@ Urutan tabel = urutan pengerjaan. Estimasi dengan bantuan AI. Status per 8 Novem
 | [#12](https://github.com/arikmhm/awm-fullstack/issues/12) | Tampilan responsif & state loading/kosong/error | M4 Rilis | must | 1j | #4–#11 | ✅ Selesai |
 | [#13](https://github.com/arikmhm/awm-fullstack/issues/13) | Verifikasi akhir di URL produksi | M4 Rilis | must | 0.5j | #12 | ✅ Selesai |
 | [#14](https://github.com/arikmhm/awm-fullstack/issues/14) | Dokumentasi submission: README, user guide + screenshot, finalisasi docs | M4 Rilis | must | 1j | #13 | ✅ Selesai |
-| [#15](https://github.com/arikmhm/awm-fullstack/issues/15) | Kelola produk (tambah, ubah, aktif/nonaktif) | M4 Rilis | could | 1.5j | #7 | Belum dikerjakan |
+| [#15](https://github.com/arikmhm/awm-fullstack/issues/15) | Kelola produk (tambah, ubah, aktif/nonaktif) | M4 Rilis | could | 1.5j | #7 | ✅ Selesai |
 
 Total ±15 jam; jalur wajib (tanpa #11 dan #15) ±12.5 jam.
 
 \* `get_order_status(code, phone)` diganti `track_orders(keyword)` di #11, agar pelacakan cukup dengan kode **atau** nomor HP.
 
-**Ringkasan akhir:** 14 dari 15 issue selesai, termasuk semua issue *must* dan *should*. #15 (*could*) belum dikerjakan dan ditandai di PRD §6.3 dan Flowchart §8.
+**Ringkasan akhir:** 15 dari 15 issue selesai, termasuk issue *could* #15 (kelola produk).
 
 ## 5. Keputusan Tambahan dari Penyusunan Backlog
 Saat menyusun issue, ditemukan empat hal yang belum tertulis di PRD/ERD. Semuanya dimasukkan ke issue terkait, dan dokumennya diperbarui di issue tersebut:

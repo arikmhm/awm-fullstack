@@ -89,7 +89,7 @@ erDiagram
 | id | uuid | PK, otomatis | ID internal pesanan |
 | code | text | wajib, unik | Kode pesanan untuk pelanggan, contoh `ORD-7F3K9Q` |
 | customer_name | text | wajib | Nama pelanggan |
-| customer_phone | text | wajib, hanya angka | Nomor HP, juga dipakai untuk lacak pesanan |
+| customer_phone | text | wajib, hanya angka | Nomor HP format `62xxxx` (dinormalisasi `create_order`), juga dipakai untuk lacak pesanan |
 | customer_address | text | wajib | Alamat pengiriman |
 | total | integer | wajib, ≥ 0 | Jumlah seluruh subtotal, dihitung oleh database |
 | status | order_status | default `pending` | Status pesanan (lihat 2.4) |
@@ -200,6 +200,13 @@ Pengamanan berlapis:
 
 Pencabutan role langsung berlaku: cukup hapus barisnya di `user_roles`, karena `is_admin()` memeriksa tabel di setiap request.
 
-Pelanggan **tidak pernah menulis langsung** ke tabel. Semua aksi pelanggan lewat fungsi database:
-- `create_order`: membuat pesanan (harga dari database, cek dan kurangi stok, semuanya dalam satu transaksi).
-- `get_order_status(code, phone)`: mengembalikan status dan rincian hanya jika kode dan nomor HP cocok.
+Pelanggan **tidak pernah menulis langsung** ke tabel. Semua perubahan pesanan lewat fungsi database (`security definer`, `set search_path = ''`):
+
+| Fungsi | Boleh dipanggil | Isi |
+|--------|-----------------|-----|
+| `create_order(customer_name, customer_phone, customer_address, items)` | anon, authenticated | Membuat pesanan: harga dari database, kunci baris produk, cek dan kurangi stok, semuanya dalam satu transaksi. Mengembalikan kode pesanan dan total. |
+| `get_order_status(code, phone)` | anon, authenticated | Mengembalikan status, rincian, dan total hanya jika kode dan nomor HP cocok; selain itu kosong (`null`), sama untuk kode salah maupun HP salah. |
+| `update_order_status(order_id, new_status)` | authenticated, dicek `is_admin()` di dalam fungsi | Hanya perpindahan status yang sah (Flowchart §7); jika dibatalkan, stok dikembalikan dalam transaksi yang sama. |
+| `normalize_phone(phone)` | tidak ada (dipakai fungsi lain) | Menyamakan format nomor HP ke `62xxxx`: `0812…`, `+62 812-…`, dan `62812…` menjadi `62812…`. |
+
+Nomor HP disimpan dalam bentuk yang sudah dinormalisasi, sehingga pelanggan tetap bisa melacak pesanan walaupun menulis nomornya dengan format berbeda.

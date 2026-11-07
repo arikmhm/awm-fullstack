@@ -68,11 +68,11 @@ Usaha kecil sering menerima pesanan lewat chat, sehingga pencatatan manual, rawa
 | FR-01 | Sistem menampilkan katalog produk aktif: gambar, nama, harga, stok. Produk dengan stok habis ditandai dan tidak bisa ditambahkan. |
 | FR-02 | Pelanggan dapat menambah, mengurangi, dan menghapus produk di keranjang. Jumlah tidak boleh melebihi stok. Isi keranjang tersimpan di browser sehingga tidak hilang saat halaman dimuat ulang. |
 | FR-03 | Keranjang menampilkan subtotal per produk dan total keseluruhan. |
-| FR-04 | Form checkout: nama (wajib), nomor HP (wajib, angka), alamat (wajib). |
+| FR-04 | Form checkout: nama (wajib), nomor HP (wajib, angka), alamat (wajib). Nomor HP disimpan dalam format `62xxxx`, sehingga `0812…`, `+62812…`, dan `62812…` dianggap nomor yang sama. |
 | FR-05 | **Harga dan total dihitung ulang oleh server** dari data produk, bukan dari data yang dikirim browser. |
 | FR-06 | Saat checkout, server memeriksa stok, menyimpan pesanan beserta rinciannya, dan mengurangi stok dalam satu proses utuh (jika salah satu gagal, semuanya dibatalkan). |
 | FR-07 | Setelah berhasil, pelanggan melihat halaman sukses berisi kode pesanan, ringkasan, dan tautan untuk melacak pesanan. |
-| FR-08 | Halaman lacak pesanan: pelanggan memasukkan kode pesanan dan nomor HP; data hanya tampil jika keduanya cocok. Pesan kesalahan dibuat sama untuk kode salah maupun HP salah, agar kode pesanan tidak bisa ditebak. |
+| FR-08 | Halaman lacak pesanan: pelanggan memasukkan kode pesanan dan nomor HP; data hanya tampil jika keduanya cocok. Pesan kesalahan dibuat sama untuk kode salah maupun HP salah, agar kode pesanan tidak bisa ditebak. Nomor HP dicocokkan setelah dinormalisasi (lihat FR-04), jadi beda format penulisan tidak membuat pesanan gagal ditemukan. |
 | FR-09 | Status di halaman lacak pesanan diperbarui otomatis secara berkala (±10 detik), dan berhenti diperbarui setelah pesanan selesai atau dibatalkan. |
 
 ### 6.2 Sisi Admin

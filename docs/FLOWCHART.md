@@ -67,7 +67,8 @@ Seluruh langkah berjalan dalam **satu transaksi**. Jika satu langkah gagal, semu
 
 ```mermaid
 flowchart TD
-    A([Terima: nama, HP, alamat, daftar produk + jumlah]) --> B{Data pelanggan lengkap dan HP berupa angka?}
+    A([Terima: nama, HP, alamat, daftar produk + jumlah]) --> A2[Normalisasi HP ke format 62xxxx]
+    A2 --> B{Data pelanggan lengkap dan HP valid?}
     B -- Tidak --> X[Batalkan transaksi, kirim pesan kesalahan]
     B -- Ya --> C{Daftar produk kosong?}
     C -- Ya --> X
@@ -175,7 +176,7 @@ stateDiagram-v2
     end note
 ```
 
-Status hanya bisa maju. Pesanan yang sudah selesai atau dibatalkan tidak bisa diubah lagi.
+Status hanya bisa maju. Pesanan yang sudah selesai atau dibatalkan tidak bisa diubah lagi. Aturan ini dijalankan oleh fungsi database `update_order_status` (hanya untuk admin), bukan oleh tampilan, sehingga tetap berlaku walaupun request dikirim langsung ke database.
 
 ```mermaid
 flowchart TD

@@ -1,12 +1,13 @@
 import { Suspense } from "react";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardFooter,
   CardTitle,
 } from "@/components/ui/card";
+import { AddToCartButton } from "@/components/add-to-cart-button";
+import { CartSheet } from "@/components/cart-sheet";
 import { ProductImage } from "@/components/product-image";
 import { createClient } from "@/lib/supabase/server";
 import { formatRupiah } from "@/lib/utils";
@@ -16,11 +17,14 @@ const gridClass = "grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4
 export default function Home() {
   return (
     <main className="mx-auto w-full max-w-6xl flex-1 p-4 sm:p-6">
-      <header className="mb-6">
-        <h1 className="text-2xl font-semibold">Mini E-Commerce</h1>
-        <p className="text-sm text-muted-foreground">
-          Pesan tanpa login, pantau pesanan secara real-time.
-        </p>
+      <header className="mb-6 flex items-start justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-semibold">Mini E-Commerce</h1>
+          <p className="text-sm text-muted-foreground">
+            Pesan tanpa login, pantau pesanan secara real-time.
+          </p>
+        </div>
+        <CartSheet />
       </header>
       <Suspense fallback={<ProductGridSkeleton />}>
         <ProductGrid />
@@ -63,10 +67,7 @@ async function ProductGrid() {
               )}
             </CardContent>
             <CardFooter>
-              {/* Logika keranjang di #5 */}
-              <Button className="h-auto min-h-8 w-full py-1.5 whitespace-normal" disabled={soldOut}>
-                Tambah ke keranjang
-              </Button>
+              <AddToCartButton product={p} />
             </CardFooter>
           </Card>
         );

@@ -114,3 +114,17 @@ Hasil:
 - AI menganalisis ulang soal dan keempat dokumen, lalu menemukan empat hal yang belum tertulis: fungsi `update_order_status` (status hanya maju, batal mengembalikan stok), normalisasi nomor HP, aktivasi realtime untuk tabel `orders`, dan fungsi `get_dashboard_stats`.
 - Sebelum membuat apa pun, AI mendiskusikan empat keputusan: issue ditulis di GitHub Issues sekaligus diringkas di `docs/ISSUES.md`, commit langsung ke `main`, kelola produk diberi prioritas *could*, dan bahasa Indonesia.
 - Setelah rencana disetujui, dibuat 15 issue di GitHub dalam 4 milestone. Setiap issue berisi konteks, ruang lingkup, acceptance criteria, referensi ke PRD/ERD/flowchart, dependensi, dan estimasi. Ringkasan, konvensi commit, dan Definition of Done ditulis di `docs/ISSUES.md`.
+
+## Tahap 7 — Setup Project (Issue #1)
+
+**17. Memulai issue #1 di sesi terpisah**
+> saya ingin mulai mengerjakan issue #1 tapi di sesi yan beda, gimana cara bukanya?
+
+Hasil: AI membuka sesi Claude Code baru khusus untuk issue #1 dengan bekal ringkas (konteks, ruang lingkup, kriteria selesai, dan konvensi kerja), sehingga percakapan perencanaan dan implementasi tidak tercampur. Setup besar (`create-next-app`, shadcn, paket Supabase) dijalankan satu tahap demi satu tahap dengan persetujuan di setiap tahap.
+
+**18. Mengkritisi hasil scaffold**
+> kenapa ngga makai src aja dan terkait proxy.ts itu gimana?
+
+Hasil:
+- Kode aplikasi dipindah ke folder `src/` agar terpisah dari file konfigurasi di root. Tidak ada beda fungsi, hanya kerapian, dan biayanya murah karena dilakukan sebelum ada kode lain.
+- `proxy.ts` adalah nama baru `middleware.ts` di Next.js 16. Untuk Supabase, file ini memperbarui token login di cookie dan menghadang halaman `/admin`. Karena login admin baru dikerjakan di issue #7, pembuatannya ditunda ke sana.

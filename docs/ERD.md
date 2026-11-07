@@ -150,7 +150,8 @@ Saat ini hanya ada satu role. Role baru (misalnya `staff` yang hanya boleh mengu
 ## 4. Index
 | Tabel | Kolom | Kegunaan |
 |-------|-------|----------|
-| orders | `code` (unik) | Pencarian di halaman lacak pesanan |
+| orders | `code` (unik) | Pencarian kode di halaman lacak pesanan |
+| orders | `customer_phone` | Pencarian nomor HP di halaman lacak pesanan |
 | orders | `created_at` | Urutan tabel transaksi dan grafik omzet per hari |
 | orders | `status` | Filter status di dashboard |
 | order_items | `order_id` | Mengambil rincian sebuah pesanan |
@@ -205,7 +206,7 @@ Pelanggan **tidak pernah menulis langsung** ke tabel. Semua perubahan pesanan le
 | Fungsi | Boleh dipanggil | Isi |
 |--------|-----------------|-----|
 | `create_order(customer_name, customer_phone, customer_address, items)` | anon, authenticated | Membuat pesanan: harga dari database, kunci baris produk, cek dan kurangi stok, semuanya dalam satu transaksi. Mengembalikan kode pesanan dan total. |
-| `get_order_status(code, phone)` | anon, authenticated | Mengembalikan status, rincian, dan total hanya jika kode dan nomor HP cocok; selain itu kosong (`null`), sama untuk kode salah maupun HP salah. |
+| `track_orders(keyword)` | anon, authenticated | Keyword berawalan `ORD-` dicari sebagai kode, selain itu sebagai nomor HP (dinormalisasi). Mengembalikan daftar pesanan (kode, status, waktu, total, rincian), terbaru dulu, maksimal 20; tidak ketemu = `[]`. Nama, alamat, dan nomor HP tidak dikembalikan. |
 | `update_order_status(order_id, new_status)` | authenticated, dicek `is_admin()` di dalam fungsi | Hanya perpindahan status yang sah (Flowchart §7); jika dibatalkan, stok dikembalikan dalam transaksi yang sama. |
 | `get_dashboard_stats()` | authenticated, dicek `is_admin()` di dalam fungsi | Ringkasan dashboard: total omzet, jumlah pesanan, barang terjual, pesanan `pending`, omzet per hari 7 hari terakhir (zona Asia/Jakarta, hari kosong bernilai 0), dan top 5 produk per qty. Pesanan `cancelled` tidak dihitung di omzet, barang terjual, dan grafik; jumlah pesanan menghitung semua status. |
 | `normalize_phone(phone)` | tidak ada (dipakai fungsi lain) | Menyamakan format nomor HP ke `62xxxx`: `0812…`, `+62 812-…`, dan `62812…` menjadi `62812…`. |

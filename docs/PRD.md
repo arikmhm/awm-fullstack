@@ -29,7 +29,7 @@ Usaha kecil sering menerima pesanan lewat chat, sehingga pencatatan manual, rawa
 - Keranjang multi-produk dengan pengaturan jumlah (quantity).
 - Checkout tanpa login (nama, nomor HP, alamat).
 - Kode pesanan unik setelah checkout.
-- Halaman lacak pesanan (kode pesanan + nomor HP).
+- Halaman lacak pesanan (kode pesanan atau nomor HP).
 - Login admin dan dashboard terproteksi.
 - Dashboard real-time: tabel transaksi, ringkasan statistik, grafik penjualan.
 - Pengelolaan status pesanan oleh admin.
@@ -51,7 +51,7 @@ Usaha kecil sering menerima pesanan lewat chat, sehingga pencatatan manual, rawa
 | US-02 | Pelanggan | memasukkan beberapa produk ke keranjang dan mengatur jumlahnya | bisa membeli banyak barang sekaligus |
 | US-03 | Pelanggan | checkout hanya dengan mengisi nama, nomor HP, dan alamat | tidak perlu repot membuat akun |
 | US-04 | Pelanggan | mendapat kode pesanan setelah checkout | bisa mengecek pesanan nanti |
-| US-05 | Pelanggan | melihat status pesanan dengan kode pesanan dan nomor HP | tahu pesanan sudah sampai tahap mana |
+| US-05 | Pelanggan | melihat status pesanan dengan kode pesanan atau nomor HP | tahu pesanan sudah sampai tahap mana |
 | US-06 | Admin | login ke dashboard | data penjualan hanya bisa dilihat oleh saya |
 | US-07 | Admin | melihat pesanan baru muncul otomatis | bisa segera memproses tanpa refresh |
 | US-08 | Admin | melihat ringkasan dan grafik penjualan | memahami performa toko |
@@ -72,8 +72,8 @@ Usaha kecil sering menerima pesanan lewat chat, sehingga pencatatan manual, rawa
 | FR-05 | **Harga dan total dihitung ulang oleh server** dari data produk, bukan dari data yang dikirim browser. |
 | FR-06 | Saat checkout, server memeriksa stok, menyimpan pesanan beserta rinciannya, dan mengurangi stok dalam satu proses utuh (jika salah satu gagal, semuanya dibatalkan). |
 | FR-07 | Setelah berhasil, pelanggan melihat halaman sukses berisi kode pesanan, ringkasan, dan tautan untuk melacak pesanan. |
-| FR-08 | Halaman lacak pesanan: pelanggan memasukkan kode pesanan dan nomor HP; data hanya tampil jika keduanya cocok. Pesan kesalahan dibuat sama untuk kode salah maupun HP salah, agar kode pesanan tidak bisa ditebak. Nomor HP dicocokkan setelah dinormalisasi (lihat FR-04), jadi beda format penulisan tidak membuat pesanan gagal ditemukan. |
-| FR-09 | Status di halaman lacak pesanan diperbarui otomatis secara berkala (±10 detik), dan berhenti diperbarui setelah pesanan selesai atau dibatalkan. |
+| FR-08 | Halaman lacak pesanan: pelanggan cukup memasukkan kode pesanan **atau** nomor HP. Hasilnya berupa daftar pesanan (kode → satu pesanan, nomor HP → semua pesanan dengan nomor itu, maksimal 20 terbaru) berisi kode, waktu, status, dan total; pesanan diklik untuk melihat rincian barang. Nama, alamat, dan nomor HP tidak ditampilkan. Nomor HP dicocokkan setelah dinormalisasi (lihat FR-04), jadi beda format penulisan tidak membuat pesanan gagal ditemukan. |
+| FR-09 | Status di halaman lacak pesanan tidak diperbarui otomatis: pelanggan melihat status terbaru dengan mencari lagi atau memuat ulang halaman. |
 
 ### 6.2 Sisi Admin
 | ID | Kebutuhan |

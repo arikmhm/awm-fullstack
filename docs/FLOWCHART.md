@@ -96,22 +96,19 @@ flowchart TD
 ```mermaid
 flowchart TD
     A([Buka halaman lacak]) --> B{Datang dari tautan halaman sukses?}
-    B -- Ya --> C[Kode pesanan terisi otomatis]
-    B -- Tidak --> D[Isi kode pesanan]
-    C --> E[Isi nomor HP]
-    D --> E
-    E --> F[Panggil get_order_status kode + HP]
-    F --> G{Kode dan HP cocok?}
+    B -- Ya --> C[Kode pesanan terisi dan langsung dicari]
+    B -- Tidak --> D[Isi kode pesanan atau nomor HP]
+    D --> F[Panggil track_orders keyword]
+    C --> F
+    F --> G{Ada pesanan yang cocok?}
     G -- Tidak --> H[Tampilkan 'Pesanan tidak ditemukan']
     H --> D
-    G -- Ya --> I[Tampilkan status, rincian barang, dan total]
-    I --> J{Status selesai atau dibatalkan?}
-    J -- Ya --> K([Berhenti memperbarui])
-    J -- Tidak --> L[Tunggu ±10 detik]
-    L --> F
+    G -- Ya --> I[Tampilkan daftar: kode, waktu, status, total]
+    I --> J[Klik salah satu pesanan]
+    J --> K([Tampilkan rincian barang dan total])
 ```
 
-Pesan untuk kode salah dan HP salah sengaja dibuat sama, agar orang lain tidak bisa menebak kode pesanan yang benar.
+Kode pesanan selalu menghasilkan satu pesanan karena kode bersifat unik; nomor HP bisa menghasilkan beberapa pesanan. Status tidak diperbarui otomatis: pelanggan mencari lagi atau memuat ulang halaman untuk melihat status terbaru.
 
 ## 5. Alur Login & Akses Admin
 
@@ -187,7 +184,7 @@ flowchart TD
     C -- Tidak --> E[Ubah status]
     D --> E
     E --> F[Simpan dalam satu transaksi]
-    F --> G([Dashboard dan halaman lacak pelanggan ikut berubah])
+    F --> G([Dashboard ikut berubah; halaman lacak berubah saat pelanggan mencari lagi])
 ```
 
 ## 8. Alur Kelola Produk

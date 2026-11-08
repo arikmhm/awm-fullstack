@@ -158,7 +158,7 @@ Saat ini hanya ada satu role. Role baru (misalnya `staff` yang hanya boleh mengu
 | order_items | `order_id` | Mengambil rincian sebuah pesanan |
 | order_items | `product_id` | Grafik produk terlaris |
 
-## 5. Hak Akses Data (Row Level Security)
+## 5. Keamanan & Fungsi Database
 
 | Tabel | Pelanggan (tanpa login) | Admin (login, role admin) |
 |-------|-------------------------|---------------|

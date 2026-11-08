@@ -73,7 +73,7 @@ Usaha kecil sering menerima pesanan lewat chat, sehingga pencatatan manual, rawa
 | FR-06 | Saat checkout, server memeriksa stok, menyimpan pesanan beserta rinciannya, dan mengurangi stok dalam satu proses utuh (jika salah satu gagal, semuanya dibatalkan). |
 | FR-07 | Setelah berhasil, pelanggan melihat halaman sukses berisi kode pesanan, ringkasan, dan tautan untuk melacak pesanan. |
 | FR-08 | Halaman lacak pesanan: pelanggan cukup memasukkan kode pesanan **atau** nomor HP. Hasilnya berupa daftar pesanan (kode → satu pesanan, nomor HP → semua pesanan dengan nomor itu, maksimal 20 terbaru) berisi kode, waktu, status, dan total; pesanan diklik untuk melihat rincian barang. Nama, alamat, dan nomor HP tidak ditampilkan. Nomor HP dicocokkan setelah dinormalisasi (lihat FR-04), jadi beda format penulisan tidak membuat pesanan gagal ditemukan. |
-| FR-09 | Status di halaman lacak pesanan tidak diperbarui otomatis: pelanggan melihat status terbaru dengan mencari lagi atau memuat ulang halaman. |
+| FR-09 | Pelanggan melihat status terbaru dengan mencari lagi atau memuat ulang halaman lacak; status tidak diperbarui otomatis. |
 
 ### 6.2 Sisi Admin
 | ID | Kebutuhan |
@@ -88,7 +88,7 @@ Usaha kecil sering menerima pesanan lewat chat, sehingga pencatatan manual, rawa
 | FR-17 | Admin dapat logout. |
 
 ### 6.3 Kelola Produk (Admin)
-Halaman `/admin/products` ([issue #15](https://github.com/arikmhm/awm-fullstack/issues/15)). FR-21 dan FR-22 dijamin database: `create_order` menolak produk nonaktif, dan harga disalin ke `order_items` saat checkout.
+Halaman `/admin/products`. FR-21 dan FR-22 dijamin database: `create_order` menolak produk nonaktif, dan harga disalin ke `order_items` saat checkout.
 
 | ID | Kebutuhan |
 |----|-----------|

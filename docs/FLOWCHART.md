@@ -73,20 +73,20 @@ flowchart TD
     B -- Tidak --> X[Batalkan transaksi, kirim pesan kesalahan]
     B -- Ya --> C{Daftar produk kosong?}
     C -- Ya --> X
-    C -- Tidak --> D[Ambil produk berikutnya dan kunci barisnya]
+    C -- Tidak --> LK[Kunci baris semua produk yang dipesan, urut ID]
+    LK --> D[Ambil produk berikutnya]
     D --> E{Produk ada dan aktif?}
     E -- Tidak --> X
     E -- Ya --> F{Jumlah > 0 dan stok cukup?}
     F -- Tidak --> X
-    F -- Ya --> G[Ambil harga dari tabel products]
+    F -- Ya --> G[Tambahkan harga dari tabel products × jumlah ke total]
     G --> H{Masih ada produk lain?}
     H -- Ya --> D
     H -- Tidak --> I[Buat kode pesanan unik]
-    I --> J[Simpan ke orders dengan status pending]
+    I --> J[Simpan ke orders: status pending + total]
     J --> K[Simpan rincian ke order_items: salinan nama + harga]
     K --> L[Kurangi stok setiap produk]
-    L --> M[Hitung total dari seluruh subtotal]
-    M --> N[Simpan transaksi]
+    L --> N[Simpan transaksi]
     N --> O([Kirim kode pesanan ke pelanggan])
 ```
 
@@ -192,7 +192,7 @@ flowchart TD
 
 ## 8. Alur Kelola Produk
 
-Halaman `/admin/products` ([issue #15](https://github.com/arikmhm/awm-fullstack/issues/15)). Tombol Tambah dan Ubah membuka form di dialog; tombol Aktifkan/Nonaktifkan langsung menyimpan.
+Halaman `/admin/products`. Tombol Tambah dan Ubah membuka form di dialog; tombol Aktifkan/Nonaktifkan langsung menyimpan.
 
 ```mermaid
 flowchart TD

@@ -150,14 +150,22 @@ Hasil:
 - Kode aplikasi dipindah ke folder `src/` agar terpisah dari file konfigurasi di root. Tidak ada beda fungsi, hanya kerapian, dan biayanya murah karena dilakukan sebelum ada kode lain.
 - `proxy.ts` adalah nama baru `middleware.ts` di Next.js 16. Untuk Supabase, file ini memperbarui token login di cookie dan menghadang halaman `/admin`. Karena login admin baru dikerjakan di issue #7, pembuatannya ditunda ke sana.
 
+## Pola Prompt per Issue (Tahap 8–21)
+
+Mulai issue #2, setiap issue dibuka dengan prompt yang sama; hanya nomor issue (`n`) yang berbeda. AI harus menunjukkan rencana dulu dan baru boleh mengubah kode setelah rencana disetujui:
+
+> saya ingin melanjutkan issue #n cek pada @docs/ISSUES.md dan pada github, sebelum melakukan eksekusi, saya ingin melihat tahapan yang akan kamu lakukan terlebih dahulu.
+> tampilkan outputnya secara ringkas dan rapi serta terstruktur.
+>
+> note: jangan lakukan perubahan/generate kode atau apapun, sebelum saya setujui rencana implementasi issue n
+
+Di bawah ini prompt tersebut ditulis singkat sebagai **Pola per issue (n = …)**.
+
 ## Tahap 8 — Skema Database (Issue #2)
 
 **19. Meminta rencana sebelum eksekusi**
 
-> saya ingin melanjutkan issue #2 cek pada @docs/ISSUES.md dan pada github, sebelum melakukan eksekusi, saya ingin melihat tahapan yang akan kamu lakukan terlebih dahulu.
-> tampilkan outputnya secara ringkas dan rapi serta terstruktur.
->
-> note: jangan lakukan perubahan/generate kode atau apapun, sebelum saya setujui rencana implementasi issue 2
+Prompt: **Pola per issue (n = 2)**
 
 Hasil: AI membaca issue #2 di GitHub, ERD, dan PRD, lalu menyusun rencana per langkah: isi migration (tabel, constraint, index, trigger, `is_admin()`, RLS, realtime), seed produk, cara menjalankan, dan tabel uji untuk setiap acceptance criteria. Tidak ada file yang dibuat sebelum rencana disetujui.
 
@@ -178,10 +186,7 @@ Hasil: `user_roles` adalah tabel (akun + role-nya), sedangkan `app_role` adalah 
 
 **22. Meminta rencana sebelum eksekusi**
 
-> saya ingin melanjutkan issue #3 cek pada @docs/ISSUES.md dan pada github, sebelum melakukan eksekusi, saya ingin melihat tahapan yang akan kamu lakukan terlebih dahulu.
-> tampilkan outputnya secara ringkas dan rapi serta terstruktur.
->
-> note: jangan lakukan perubahan/generate kode atau apapun, sebelum saya setujui rencana implementasi issue 3
+Prompt: **Pola per issue (n = 3)**
 
 Hasil: AI membaca issue #3, migration #2, ERD, PRD, dan Flowchart, lalu menyusun rencana: satu migration baru berisi `normalize_phone`, `create_order`, `get_order_status`, dan `update_order_status`, aturan hak akses per role, cara uji untuk setiap acceptance criteria, dan bagian dokumen yang perlu diperbarui. Tidak ada file yang dibuat sebelum rencana disetujui.
 
@@ -195,10 +200,7 @@ Hasil: Saat AI pertama kali mencoba menjalankan migration ke Supabase, pemeriksa
 
 **24. Meminta rencana sebelum eksekusi**
 
-> saya ingin melanjutkan issue #4 cek pada @docs/ISSUES.md dan pada github, sebelum melakukan eksekusi, saya ingin melihat tahapan yang akan kamu lakukan terlebih dahulu.
-> tampilkan outputnya secara ringkas dan rapi serta terstruktur.
->
-> note: jangan lakukan perubahan/generate kode atau apapun, sebelum saya setujui rencana implementasi issue 4
+Prompt: **Pola per issue (n = 4)**
 
 Hasil: AI membaca issue #4, skema & seed produk, PRD FR-01, Flowchart §2, dan dokumentasi caching Next.js 16 (karena `cacheComponents` aktif). Rencananya: helper `formatRupiah`, komponen gambar dengan fallback, dan grid produk di dalam `<Suspense>` tanpa cache agar stok selalu segar, plus filter `is_active` eksplisit karena admin yang login bisa membaca produk nonaktif. Setelah disetujui, saat dicek di lebar 375px teks tombol ternyata meluap, sehingga tombol dibuat boleh dua baris. Build lolos, tampilan dicek di 375px dan desktop, lalu dicek ulang di URL produksi.
 
@@ -206,10 +208,7 @@ Hasil: AI membaca issue #4, skema & seed produk, PRD FR-01, Flowchart §2, dan d
 
 **25. Meminta rencana sebelum eksekusi**
 
-> saya ingin melanjutkan issue #5 cek pada @docs/ISSUES.md dan pada github, sebelum melakukan eksekusi, saya ingin melihat tahapan yang akan kamu lakukan terlebih dahulu.
-> tampilkan outputnya secara ringkas dan rapi serta terstruktur.
->
-> note: jangan lakukan perubahan/generate kode atau apapun, sebelum saya setujui rencana implementasi issue 5
+Prompt: **Pola per issue (n = 5)**
 
 Hasil: AI membaca issue #5, halaman katalog dari #4, komponen `Sheet` yang sudah ada, PRD FR-02/FR-03/US-02, dan Flowchart §2. Rencananya: keranjang disimpan di `localStorage` lewat `useSyncExternalStore` bawaan React (tanpa library tambahan), qty dibatasi stok, panel keranjang memakai `Sheet` dengan badge jumlah item di header, dan harga di keranjang hanya untuk tampilan karena total dihitung ulang server di #6. Setelah disetujui, saat dicek di lebar 375px panel ternyata hanya selebar 3/4 layar sehingga subtotal terpotong, lalu panel dibuat selebar layar di HP. Lint dan build lolos, semua acceptance criteria dicek di 375px dan desktop.
 
@@ -217,10 +216,7 @@ Hasil: AI membaca issue #5, halaman katalog dari #4, komponen `Sheet` yang sudah
 
 **26. Meminta rencana sebelum eksekusi**
 
-> saya ingin melanjutkan issue #6 cek pada @docs/ISSUES.md dan pada github, sebelum melakukan eksekusi, saya ingin melihat tahapan yang akan kamu lakukan terlebih dahulu.
-> tampilkan outputnya secara ringkas dan rapi serta terstruktur.
->
-> note: jangan lakukan perubahan/generate kode atau apapun, sebelum saya setujui rencana implementasi issue 6
+Prompt: **Pola per issue (n = 6)**
 
 Hasil: AI membaca issue #6, fungsi `create_order` dari #3, keranjang dari #5, PRD FR-04–FR-07, dan Flowchart §2. Karena `create_order` hanya mengembalikan kode dan total, AI menanyakan cara menampilkan ringkasan di halaman sukses; dipilih route `/checkout/success` dengan ringkasan disimpan di `sessionStorage`. Rencananya: form dengan validasi per field, hanya `product_id + qty` yang dikirim, tombol dikunci saat proses agar tidak ada pesanan ganda, dan error server (mis. stok tidak cukup) ditampilkan lalu kembali ke katalog. Setelah disetujui, saat diuji di lebar 375px tombol di halaman sukses ternyata gepeng dan tombol outline kehilangan garis tepi, lalu keduanya diperbaiki. Lint dan build lolos, semua acceptance criteria dicek di 375px dan desktop, termasuk klik ganda yang terbukti hanya membuat satu pesanan.
 
@@ -228,10 +224,7 @@ Hasil: AI membaca issue #6, fungsi `create_order` dari #3, keranjang dari #5, PR
 
 **27. Meminta rencana sebelum eksekusi**
 
-> saya ingin melanjutkan issue #7 cek pada @docs/ISSUES.md dan pada github, sebelum melakukan eksekusi, saya ingin melihat tahapan yang akan kamu lakukan terlebih dahulu.
-> tampilkan outputnya secara ringkas dan rapi serta terstruktur.
->
-> note: jangan lakukan perubahan/generate kode atau apapun, sebelum saya setujui rencana implementasi issue 7
+Prompt: **Pola per issue (n = 7)**
 
 Hasil: AI membaca issue #7, fungsi `is_admin()` dan RLS dari #2, client Supabase yang sudah ada, PRD FR-10/FR-17/US-06, Flowchart §5, dan dokumentasi Next.js 16 (di versi ini `middleware.ts` sudah diganti `proxy.ts`). Rencananya: `proxy.ts` menjaga `/admin/*` (belum login diarahkan ke login, bukan admin otomatis logout), Server Action untuk login dan logout, halaman login, dashboard sementara dengan tombol logout, dan langkah membuat akun admin lewat SQL dicatat di README. Setelah disetujui, form login dibungkus `<Suspense>` karena `cacheComponents` aktif. Build dan lint lolos. Redirect `/admin`, pesan password salah, dan tampilan 375px dicek di browser. AI tidak login memakai akun sungguhan karena password akan dikirim ke Supabase Auth yang di-hosting, jadi uji login dilakukan manual.
 
@@ -251,51 +244,53 @@ Hasil: AI mencocokkan hasil uji dengan acceptance criteria: AC1–AC3 lolos, dan
 
 **29. Meminta rencana sebelum eksekusi**
 
-> saya ingin melanjutkan issue #8 cek pada @docs/ISSUES.md dan pada github, sebelum melakukan eksekusi, saya ingin melihat tahapan yang akan kamu lakukan terlebih dahulu.
-> tampilkan outputnya secara ringkas dan rapi serta terstruktur.
->
-> note: jangan lakukan perubahan/generate kode atau apapun, sebelum saya setujui rencana implementasi issue 8
+Prompt: **Pola per issue (n = 8)**
 
-Hasil: AI membaca issue #8, fungsi `update_order_status` dari #3, RLS `orders`/`order_items` dari #2, PRD FR-13–FR-15/US-09/US-10/§6.4, dan Flowchart §7. Karena semua aturan status dan pengembalian stok sudah dijamin database, rencananya murni UI tanpa migration baru: query pesanan beserta rinciannya di Server Component, tabel memakai komponen shadcn yang sudah terpasang, filter status di klien, dialog detail berisi alamat dan rincian barang, serta tombol ubah status yang hanya muncul untuk transisi sah dengan konfirmasi sebelum membatalkan. Setelah disetujui, log dev server menunjukkan error `Date.now()` saat `/admin` dirender dengan sesi admin (Cache Components), lalu diperbaiki dengan `await connection()` sebelum query. Lint dan build lolos. Di browser, dua pesanan uji baru dipakai agar pesanan yang ada tidak berubah: satu dibawa sampai Selesai (tombol ubah status hilang), satu dibatalkan dan stok produknya terbukti kembali di database. Filter tiap status dan tampilan 375px serta desktop juga dicek.
+Hasil:
+- Rencananya murni UI tanpa migration baru, karena aturan status dan pengembalian stok sudah dijamin `update_order_status`: tabel shadcn, filter status di klien, dialog detail (alamat + rincian barang), dan tombol ubah status yang hanya muncul untuk transisi sah, dengan konfirmasi sebelum membatalkan.
+- Masalah: error `Date.now()` saat `/admin` dirender dengan sesi admin (Cache Components). Diperbaiki dengan `await connection()` sebelum query.
+- Uji di browser memakai dua pesanan uji baru: satu dibawa sampai Selesai (tombol ubah status hilang), satu dibatalkan dan stoknya terbukti kembali di database. Filter tiap status serta tampilan 375px dan desktop dicek. Lint dan build lolos.
 
 ## Tahap 15 — Ringkasan Statistik & Grafik Penjualan (Issue #9)
 
 **30. Meminta rencana sebelum eksekusi**
 
-> saya ingin melanjutkan issue #9 cek pada @docs/ISSUES.md dan pada github, sebelum melakukan eksekusi, saya ingin melihat tahapan yang akan kamu lakukan terlebih dahulu.
-> tampilkan outputnya secara ringkas dan rapi serta terstruktur.
->
-> note: jangan lakukan perubahan/generate kode atau apapun, sebelum saya setujui rencana implementasi issue 9
+Prompt: **Pola per issue (n = 9)**
 
-Hasil: AI membaca issue #9, migration #2/#3, halaman admin dari #8, PRD FR-11/FR-12/US-08, dan ERD §4–§5. Rencananya menyebut tiga keputusan yang perlu disetujui: "jumlah pesanan" menghitung semua status agar sama dengan jumlah baris di tabel transaksi (pesanan dibatalkan tetap tidak dihitung di omzet, barang terjual, dan grafik), hari dikelompokkan dalam zona Asia/Jakarta dengan hari tanpa penjualan tetap bernilai 0, dan grafik memakai shadcn Chart (menambah `recharts`). Setelah disetujui, AI mengerjakan dulu bagian yang tidak butuh database (komponen, halaman, ERD, lint, build), lalu meminta izin sebelum menjalankan migration.
+Hasil:
+- Tiga keputusan diajukan untuk disetujui: "jumlah pesanan" menghitung semua status agar sama dengan jumlah baris tabel transaksi (pesanan dibatalkan tetap tidak dihitung di omzet, barang terjual, dan grafik); hari dikelompokkan dalam zona Asia/Jakarta dengan hari kosong bernilai 0; grafik memakai shadcn Chart (menambah `recharts`).
+- Bagian yang tidak butuh database (komponen, halaman, ERD, lint, build) dikerjakan dulu, lalu AI meminta izin sebelum menjalankan migration.
 
 **31. Mengizinkan migration dijalankan**
 
 > Ya, jalankan
 
-Hasil: Migration dijalankan, lalu keempat acceptance criteria diuji dalam transaksi yang di-rollback: angka fungsi sama dengan hitungan langsung dari tabel, pesanan yang dibatalkan mengembalikan omzet ke nilai semula, data kosong menghasilkan angka 0 dan grafik 7 hari bernilai 0, serta anon (juga lewat REST API) dan user tanpa role admin ditolak. Karena login admin di browser berarti mengirim password ke Supabase Auth yang di-hosting, tampilan dicek lewat halaman pratinjau sementara berisi angka hasil uji di lebar 375px dan desktop, lalu halaman itu dihapus sebelum commit. Saat dicek, grafik sempat terlihat kosong; ternyata tangkapan layar diambil saat animasi batang belum selesai, bukan bug. Commit di-push, issue #9 tertutup otomatis, dan deploy Vercel berhasil.
+Hasil:
+- Migration dijalankan, lalu keempat acceptance criteria diuji dalam transaksi yang di-rollback: angka fungsi sama dengan hitungan langsung dari tabel, pembatalan mengembalikan omzet, data kosong menghasilkan 0, dan anon serta user tanpa role admin ditolak.
+- Karena AI tidak login dengan password sungguhan, tampilan dicek lewat halaman pratinjau sementara di 375px dan desktop. Halaman itu dihapus sebelum commit.
+- Grafik sempat terlihat kosong, ternyata karena tangkapan layar diambil sebelum animasi selesai, bukan bug. Commit di-push, issue #9 tertutup, dan deploy Vercel berhasil.
 
 ## Tahap 16 — Dashboard Real-time & Notifikasi Pesanan Baru (Issue #10)
 
 **32. Meminta rencana sebelum eksekusi**
 
-> saya ingin melanjutkan issue #10 cek pada @docs/ISSUES.md dan pada github, sebelum melakukan eksekusi, saya ingin melihat tahapan yang akan kamu lakukan terlebih dahulu.
-> tampilkan outputnya secara ringkas dan rapi serta terstruktur.
->
-> note: jangan lakukan perubahan/generate kode atau apapun, sebelum saya setujui rencana implementasi issue 10
+Prompt: **Pola per issue (n = 10)**
 
-Hasil: AI membaca issue #10, halaman admin dan tabel transaksi dari #8, ringkasan dari #9, migration #2, dan Flowchart §6. Karena tabel `orders` sudah masuk publication realtime dan data dashboard sudah diambil di Server Component, rencananya cukup satu komponen klien kecil: berlangganan perubahan `orders`, menampilkan toast saat ada pesanan baru, dan memanggil `router.refresh()` agar ringkasan, grafik, dan tabel diambil ulang. Saat rencana ditinjau, AI diminta menjelaskan dari mana ia tahu publication realtime sudah aktif. Jawabannya dari file migration, sehingga rencana ditambah langkah cek langsung di database live sebelum menulis kode. Saat diuji di browser, dashboard awalnya tidak berubah: langganan terdaftar sebelum token admin terpasang sehingga tercatat sebagai `anon` dan semua event disaring RLS. AI memperbaikinya dengan memasang token sesi sebelum subscribe. Setelah itu keempat acceptance criteria lolos dengan dua tab: pesanan baru muncul beserta toast, kartu dan grafik ikut berubah, pembatalan dari tab admin lain ikut tampil, dan jumlah langganan di database tetap satu per tab saat berpindah halaman. Dua pesanan uji dibatalkan agar stok kembali. Commit di-push dan issue #10 tertutup otomatis.
+Hasil:
+- Rencananya cukup satu komponen klien: berlangganan perubahan `orders`, menampilkan toast untuk pesanan baru, dan memanggil `router.refresh()` agar ringkasan, grafik, dan tabel diambil ulang.
+- Saat rencana ditinjau, AI diminta menjelaskan dari mana ia tahu publication realtime sudah aktif. Jawabannya dari file migration, sehingga ditambahkan langkah cek langsung di database live.
+- Masalah: dashboard awalnya tidak berubah karena langganan terdaftar sebagai `anon` sebelum token admin terpasang, sehingga semua event disaring RLS. Diperbaiki dengan memasang token sesi sebelum subscribe.
+- Uji dengan dua tab: pesanan baru muncul beserta toast, kartu dan grafik ikut berubah, pembatalan dari tab lain ikut tampil, dan jumlah langganan tetap satu per tab. Pesanan uji dibatalkan, lalu issue #10 tertutup.
 
 ## Tahap 17 — Lacak Pesanan Pelanggan (Issue #11)
 
 **33. Meminta rencana sebelum eksekusi**
 
-> saya ingin melanjutkan issue #11 cek pada @docs/ISSUES.md dan pada github, sebelum melakukan eksekusi, saya ingin melihat tahapan yang akan kamu lakukan terlebih dahulu.
-> tampilkan outputnya secara ringkas dan rapi serta terstruktur.
->
-> note: jangan lakukan perubahan/generate kode atau apapun, sebelum saya setujui rencana implementasi issue 11
+Prompt: **Pola per issue (n = 11)**
 
-Hasil: AI membaca issue #11, fungsi `get_order_status` dari #3, halaman sukses dari #6 (yang sudah menautkan ke `/track?code=`), PRD FR-08/FR-09/US-05, dan Flowchart §4. Karena fungsi database sudah siap, rencana awalnya cukup dua file baru tanpa migration: halaman `/track` dan komponen form kode + nomor HP dengan polling 10 detik. Saat rencana ditinjau, AI diminta menjelaskan kenapa pelacakan harus memakai kode dan nomor HP sekaligus. AI menjelaskan alasannya (privasi dan aturan di PRD FR-08) beserta untung-rugi tiap pilihan, lalu meminta keputusan.
+Hasil:
+- Rencana awal: halaman `/track` dan form kode + nomor HP dengan polling 10 detik, tanpa migration.
+- Saat rencana ditinjau, AI diminta menjelaskan kenapa pelacakan harus memakai kode dan nomor HP sekaligus. AI menjelaskan alasannya (privasi, PRD FR-08) beserta untung-rugi tiap pilihan, lalu meminta keputusan.
 
 **34. Memilih pencarian dengan kode atau nomor HP**
 
@@ -315,40 +310,44 @@ Hasil: AI menjelaskan bahwa polling secara teknis tidak wajib. Polling ada di re
 
 > Refresh manual saja
 
-Hasil: Rencana final disetujui. Migration `track_orders` (beserta index `customer_phone`) dijalankan, lalu diuji sebagai `anon`: kode menghasilkan 1 pesanan; nomor HP format `0…`, `+62 …-…`, dan `62…` menghasilkan daftar yang sama; input salah, kosong, atau null menghasilkan `[]`; `get_order_status` sudah terhapus. Pencarian dari `?code=` dijalankan di server sehingga muat ulang halaman selalu menampilkan status terbaru, sedangkan nomor HP tidak dimasukkan ke URL. Tabel rincian barang di dialog admin diekstrak menjadi komponen bersama agar dipakai juga oleh halaman lacak. Saat diuji di browser ditemukan dua masalah: error `Date.now()` saat prerender (diperbaiki dengan `await connection()` seperti di `/admin`) dan fokus keyboard hilang karena input di-disable saat mencari (sekarang hanya tombol yang di-disable). Satu pesanan uji diubah ke Diproses lalu Dibatalkan; keduanya terlihat setelah halaman dimuat ulang, dan stok kembali seperti semula. PRD FR-08/FR-09/US-05, ERD §4–§5, Flowchart §4/§7, dan isi issue #11 diperbarui. Commit di-push, issue #11 tertutup otomatis, dan deploy Vercel berhasil.
+Hasil:
+- Migration `track_orders` (beserta index `customer_phone`) dijalankan dan diuji sebagai `anon`: kode menghasilkan 1 pesanan; nomor HP format `0…`, `+62 …-…`, dan `62…` menghasilkan daftar yang sama; input salah atau kosong menghasilkan `[]`; `get_order_status` sudah terhapus.
+- Pencarian dari `?code=` dijalankan di server sehingga muat ulang selalu menampilkan status terbaru, sedangkan nomor HP tidak dimasukkan ke URL. Tabel rincian barang dijadikan komponen bersama untuk admin dan halaman lacak.
+- Masalah: error `Date.now()` saat prerender (diperbaiki dengan `await connection()`) dan fokus keyboard hilang karena input di-disable saat mencari (sekarang hanya tombol yang di-disable).
+- PRD, ERD, Flowchart, dan issue #11 diperbarui. Issue #11 tertutup dan deploy Vercel berhasil.
 
 ## Tahap 18 — Tampilan Responsif & State Loading/Kosong/Error (Issue #12)
 
 **37. Meminta rencana sebelum eksekusi**
 
-> saya ingin melanjutkan issue #12 cek pada @docs/ISSUES.md dan pada github, sebelum melakukan eksekusi, saya ingin melihat tahapan yang akan kamu lakukan terlebih dahulu.
-> tampilkan outputnya secara ringkas dan rapi serta terstruktur.
->
-> note: jangan lakukan perubahan/generate kode atau apapun, sebelum saya setujui rencana implementasi issue 12
+Prompt: **Pola per issue (n = 12)**
 
-Hasil: AI membaca issue #12, PRD NFR-01, semua halaman, dan komponen dari #4–#11, lalu membandingkan ruang lingkup dengan kondisi saat ini. Ternyata state loading (skeleton), state kosong, pesan gagal memuat, serta format Rupiah dan tanggal `id-ID` sudah ada. Yang kurang hanya halaman 404 dan error boundary. Rencana disetujui: dibuat `not-found.tsx` dan `error.tsx` (di versi Next ini prop-nya `retry`, bukan `reset`). Setelah itu semua halaman diaudit di 375px dan desktop, termasuk keranjang, dialog rincian pesanan, dan dashboard admin. Tidak ada scroll horizontal; tabel transaksi di-scroll di dalam kotaknya sendiri. Saat audit ditemukan error `Date.now()` saat prerender di katalog, yang diperbaiki dengan `await connection()` seperti di `/track` dan `/admin`. Error boundary diuji dengan rute sementara yang melempar error, lalu rute itu dihapus. Saat jaringan dimatikan di local, katalog menampilkan "Gagal memuat produk", bukan halaman putih. Link Produk di header admin ditunda ke issue #15. Build lolos, commit di-push, dan issue #12 tertutup otomatis.
+Hasil:
+- Hasil pemeriksaan: state loading, kosong, gagal memuat, serta format Rupiah dan tanggal sudah ada. Yang kurang hanya halaman 404 dan error boundary, lalu dibuat `not-found.tsx` dan `error.tsx` (di versi Next ini prop-nya `retry`, bukan `reset`).
+- Semua halaman diaudit di 375px dan desktop: tidak ada scroll horizontal, dan tabel di-scroll di dalam kotaknya sendiri. Error `Date.now()` di katalog diperbaiki dengan `await connection()`.
+- Error boundary diuji dengan rute sementara yang kemudian dihapus. Saat jaringan dimatikan, katalog menampilkan "Gagal memuat produk". Link Produk di header admin ditunda ke #15. Issue #12 tertutup.
 
 ## Tahap 19 — Verifikasi Akhir di URL Produksi (Issue #13)
 
 **38. Meminta rencana sebelum eksekusi**
 
-> saya ingin melanjutkan issue #13 cek pada @docs/ISSUES.md dan pada github, sebelum melakukan eksekusi, saya ingin melihat tahapan yang akan kamu lakukan terlebih dahulu.
-> tampilkan outputnya secara ringkas dan rapi serta terstruktur.
->
-> note: jangan lakukan perubahan/generate kode atau apapun, sebelum saya setujui rencana implementasi issue 13
+Prompt: **Pola per issue (n = 13)**
 
-Hasil: AI membaca issue #13, PRD §9, dan acceptance criteria #3, lalu meminta dua keputusan: data uji di database produksi ditandai `UJI-13`, dibatalkan, lalu dihapus; admin login sendiri di browser pane karena AI tidak mengetik password di situs produksi. Setelah rencana disetujui, semua kriteria PRD §9 lolos di produksi. Checkout 2 produk tanpa login selesai sekitar 36 detik. Pesanan baru muncul di dashboard yang sudah terbuka tanpa refresh. Ringkasan dan grafik sama dengan query SQL. `/admin` tanpa sesi diarahkan ke `/admin/login`. Harga palsu dari klien diabaikan. Semua halaman bisa diakses di URL Vercel. Uji kritis #3 dijalankan dengan `psql` di dalam transaksi yang di-rollback: stok kurang, stok habis, dan produk nonaktif ditolak; transisi status tidak sah ditolak; pembatalan mengembalikan stok; non-admin dan anon tidak bisa mengubah status. Uji stok bersamaan memakai dua request paralel ke REST API produksi untuk stok terakhir: satu berhasil, satu ditolak, dan stok tidak minus. Kriteria "kode benar + HP salah" diganti uji `track_orders`, karena sejak #11 pelacakan memakai kode atau HP: format `08…`, `62…`, dan `+62…` memberi hasil yang sama, sedangkan kode atau HP salah memberi `[]`. Tidak ada error di console; yang muncul hanya warning font preload bawaan Next.js. Di 375px tidak ada scroll horizontal. Tidak ditemukan bug baru. Kedua pesanan uji dibatalkan lewat dashboard dan fungsi admin, lalu dihapus atas persetujuan user, dan stok kembali sama seperti awal.
+Hasil:
+- Dua keputusan diminta: data uji di produksi ditandai `UJI-13`, dibatalkan, lalu dihapus; admin login sendiri karena AI tidak mengetik password di situs produksi.
+- Semua kriteria PRD §9 lolos di produksi: checkout 2 produk tanpa login sekitar 36 detik, pesanan baru muncul tanpa refresh, ringkasan sama dengan query SQL, `/admin` tanpa sesi diarahkan ke login, dan harga palsu dari klien diabaikan.
+- Uji kritis dengan `psql` (transaksi di-rollback): stok kurang, stok habis, produk nonaktif, dan transisi status tidak sah ditolak; pembatalan mengembalikan stok; non-admin dan anon tidak bisa mengubah status. Dua request paralel untuk stok terakhir: satu berhasil, satu ditolak, dan stok tidak minus.
+- Tidak ada bug baru. Pesanan uji dibatalkan lalu dihapus atas persetujuan user, dan stok kembali seperti awal.
 
 ## Tahap 20 — Dokumentasi Submission (Issue #14)
 
 **39. Meminta rencana sebelum eksekusi**
 
-> saya ingin melanjutkan issue #14 cek pada @docs/ISSUES.md dan pada github, sebelum melakukan eksekusi, saya ingin melihat tahapan yang akan kamu lakukan terlebih dahulu.
-> tampilkan outputnya secara ringkas dan rapi serta terstruktur.
->
-> note: jangan lakukan perubahan/generate kode atau apapun, sebelum saya setujui rencana implementasi issue 14
+Prompt: **Pola per issue (n = 14)**
 
-Hasil: AI membaca issue #14, README, dan PRD/ERD/Flowchart, lalu menemukan tiga hal: README masih template `create-next-app`, ketiga dokumen masih berstatus draft, dan fitur Kelola Produk (#15) sudah tertulis di dokumen padahal belum dibuat. Database produksi juga masih berisi 15 pesanan uji. Rencana 8 tahap disusun dengan keputusan: #15 ditandai "belum diimplementasikan" di PRD, ERD, dan Flowchart, bukan dikerjakan dulu.
+Hasil:
+- Temuan: README masih template `create-next-app`, PRD/ERD/Flowchart masih draft, Kelola Produk (#15) sudah tertulis padahal belum dibuat, dan database produksi masih berisi 15 pesanan uji.
+- Rencana 8 tahap disusun, dengan keputusan #15 ditandai "belum diimplementasikan" di dokumen, bukan dikerjakan dulu.
 
 **40. Memilih cara screenshot dan mereset data**
 
@@ -356,21 +355,29 @@ Hasil: AI membaca issue #14, README, dan PRD/ERD/Flowchart, lalu menemukan tiga 
 >
 > misal sekarang di hapus dulu semua data transaksinya gimana? disetting ke migrasi seperti diawal, sebelum ada co co?
 
-Hasil: AI menjelaskan bahwa screenshot dari browser pane Claude hanya masuk ke percakapan dan tidak bisa disimpan sebagai file, sehingga dipilih Chrome yang dikendalikan lewat DevTools Protocol (script Node kecil di luar repo, tanpa dependency baru). Setelah dikonfirmasi, 15 pesanan uji dihapus dan stok dikembalikan ke nilai `seed.sql` dalam satu transaksi. Pesanan contoh dengan data wajar dibuat lewat `create_order`, dan statusnya diubah lewat `update_order_status` sebagai admin, sehingga aturan transisi status tetap diperiksa database. Satu pesanan dibuat lewat checkout sungguhan untuk screenshot halaman sukses. Admin login sendiri di jendela Chrome karena AI tidak mengetik password di situs produksi. Saat mengambil screenshot, klik otomatis sempat mengenai tombol Batalkan, tetapi dialog konfirmasi "Batalkan pesanan? Stok akan dikembalikan." mencegah pembatalan, dan status pesanan dicek ulang di database. 13 screenshot (desktop dan 375px) disimpan di `docs/screenshots/`.
+Hasil:
+- Screenshot diambil lewat Chrome yang dikendalikan DevTools Protocol (script Node kecil di luar repo), karena screenshot browser pane Claude tidak bisa disimpan sebagai file.
+- 15 pesanan uji dihapus dan stok dikembalikan ke nilai `seed.sql` dalam satu transaksi. Pesanan contoh dibuat lewat `create_order` dan statusnya diubah lewat `update_order_status`, sehingga aturan database tetap berlaku.
+- Admin login sendiri. Klik otomatis sempat mengenai tombol Batalkan, tetapi dialog konfirmasi mencegah pembatalan, dan status dicek ulang di database.
+- 13 screenshot (desktop dan 375px) disimpan di `docs/screenshots/`.
 
 **41. Meninjau gambar produk**
 
 > kondisi gambar produk saat ini masih belum sesuai, menurutmu gimana? apakah perlu saya sesuaikan?
 
-Hasil: AI setuju gambar perlu diganti, karena `picsum.photos` memberi foto acak yang tidak sesuai nama produk dan akan terlihat di semua screenshot. AI mencari kandidat di Unsplash (hanya foto gratis, tanpa logo merek mencolok) dan menampilkannya untuk disetujui. Celana Chino disebut sebagai pilihan paling lemah karena berupa foto model. Setelah disetujui, link diganti di `seed.sql` dan di database produksi. Kode tidak perlu diubah karena `ProductImage` memakai `<img>` biasa. Setelah itu README ditulis ulang (menjalankan dari nol, arsitektur, akun admin, deploy), `USER_GUIDE.md` dibuat untuk pelanggan dan admin, dan PRD/ERD/Flowchart/ISSUES difinalkan. Flowchart §1 diperbaiki karena masih menulis "cek status berkala", padahal sejak #11 pelanggan cukup mencari ulang atau memuat ulang halaman. Klaim di ERD bahwa pendaftaran publik dimatikan dicek ke endpoint settings Supabase Auth. Semua tautan dicek (link relatif ada file-nya, link eksternal 200), 10 diagram Mermaid berhasil di-render, dan `npm run build` lolos.
+Hasil:
+- Foto acak dari `picsum.photos` diganti foto Unsplash yang sesuai nama produk (gratis, tanpa logo merek mencolok). Kandidat ditunjukkan dulu untuk disetujui, lalu link diganti di `seed.sql` dan di database produksi.
+- README ditulis ulang, `USER_GUIDE.md` dibuat, dan PRD/ERD/Flowchart/ISSUES difinalkan. Flowchart §1 yang masih menulis "cek status berkala" diperbaiki.
+- Pengecekan: klaim pendaftaran publik dimatikan dicek ke Supabase Auth, semua tautan valid, 10 diagram Mermaid berhasil di-render, dan `npm run build` lolos.
 
 ## Tahap 21 — Kelola Produk (Issue #15)
 
 **42. Meminta rencana sebelum eksekusi**
 
-> saya ingin melanjutkan issue #15 cek pada @docs/ISSUES.md dan pada github, sebelum melakukan eksekusi, saya ingin melihat tahapan yang akan kamu lakukan terlebih dahulu.
-> tampilkan outputnya secara ringkas dan rapi serta terstruktur.
->
-> note: jangan lakukan perubahan/generate kode atau apapun, sebelum saya setujui rencana implementasi issue 15
+Prompt: **Pola per issue (n = 15)**
 
-Hasil: AI membaca issue #15, skema, dan RLS, lalu menemukan bahwa database sudah siap: check `price >= 0` dan `stock >= 0`, aturan RLS admin tambah/ubah produk, `create_order` yang menolak produk nonaktif, dan harga yang disalin ke `order_items`. Karena itu tidak perlu migration baru. Rencana 6 tahap disetujui. Dibuat halaman `/admin/products` dan komponen `products-table.tsx` dengan pola yang sama seperti tabel transaksi (client Supabase di browser, dialog, toast, `router.refresh()`), serta link **Produk** di header dashboard (ditunda sejak #12). Admin login sendiri di browser pane. Hasil uji: produk baru langsung tampil di katalog; harga negatif ditolak oleh form; produk yang dinonaktifkan hilang dari katalog, dan checkout dengan produk itu di keranjang ditolak database tanpa membuat pesanan. Saat uji ditemukan tombol **Ubah** pada baris nonaktif ikut berwarna abu-abu sehingga terlihat mati, lalu diperbaiki agar hanya data produk yang diredupkan. Tampilan dicek di 375px (tabel di-scroll di dalam kotaknya, tanpa scroll horizontal halaman) dan desktop. Produk uji diubah menjadi "Jaket Denim Klasik" dan disisakan nonaktif sebagai contoh. Tanda "belum diimplementasikan" dihapus dari PRD, ERD, Flowchart, README, dan User Guide; User Guide mendapat bagian B6 beserta screenshot. Lint dan `npm run build` lolos.
+Hasil:
+- Database ternyata sudah siap (check harga dan stok ≥ 0, RLS admin, `create_order` menolak produk nonaktif, harga disalin ke `order_items`), sehingga tidak perlu migration baru.
+- Dibuat halaman `/admin/products` dan `products-table.tsx` dengan pola yang sama seperti tabel transaksi, serta link **Produk** di header dashboard.
+- Uji: produk baru langsung tampil di katalog, harga negatif ditolak form, dan produk nonaktif hilang dari katalog dengan checkout-nya ditolak database. Tombol **Ubah** pada baris nonaktif yang terlihat mati diperbaiki.
+- Dicek di 375px dan desktop. Produk uji disisakan nonaktif sebagai contoh ("Jaket Denim Klasik"). Tanda "belum diimplementasikan" dihapus dari dokumen, User Guide mendapat bagian B6, serta lint dan build lolos.

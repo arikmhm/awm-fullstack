@@ -48,7 +48,7 @@ Browser ──► Next.js (Vercel) ──► Supabase
              └◄── Realtime ◄──────┘  (perubahan tabel orders → dashboard)
 ```
 
-- **Tanpa API server sendiri.** Aplikasi memanggil fungsi database lewat `supabase-js`. Logika penting (hitung harga, cek stok, transisi status) berjalan di database dalam satu transaksi.
+- **Tanpa REST API sendiri.** Aplikasi memanggil fungsi database lewat `supabase-js`; satu-satunya kode server tambahan adalah Server Action untuk login dan logout admin. Logika penting (hitung harga, cek stok, transisi status) berjalan di database dalam satu transaksi.
 - **Proteksi admin dua lapis:** `src/proxy.ts` mengarahkan pengunjung tanpa role admin ke halaman login, dan RLS memeriksa `is_admin()` sebelum data dikirim.
 - **Real-time:** tabel `orders` masuk publication `supabase_realtime`. Dashboard berlangganan perubahan tabel itu lalu mengambil ulang data.
 
